@@ -26,6 +26,8 @@ public class Playground extends eu.kudan.kudan.ARActivity {
     ARImageTracker trackmanager;
     ARArbiTrack ararbitrack;
     ARGyroPlaceManager gyroplacemanager;
+    ARModelNode modelnode;
+
     private ARBITRACK_STATE arbitrack_state;
 
     //Tracking enum
@@ -47,6 +49,7 @@ public class Playground extends eu.kudan.kudan.ARActivity {
 
         setTrackableArb();
         setModelArb();
+        setModel();
 
 //        ararbitrack = ARArbiTrack.getInstance();
 //        ararbitrack.initialise();
@@ -83,11 +86,13 @@ public class Playground extends eu.kudan.kudan.ARActivity {
 
     protected void startArb(View view){
         ararbitrack.start();
+        modelnode.setVisible(true);
         ararbitrack.getTargetNode().setVisible(false);
     }
 
     protected void stopArb(View view){
         ararbitrack.stop();
+        modelnode.setVisible(false);
         ararbitrack.getTargetNode().setVisible(true);
     }
 
@@ -105,7 +110,7 @@ public class Playground extends eu.kudan.kudan.ARActivity {
         //Import
         ARModelImporter modelimporter = new ARModelImporter();
         modelimporter.loadFromAsset("ben.jet");
-        ARModelNode modelnode = (ARModelNode)modelimporter.getNode();
+        modelnode = (ARModelNode)modelimporter.getNode();
 
         //Load texture
         ARTexture2D texture2D = new ARTexture2D();
@@ -121,8 +126,8 @@ public class Playground extends eu.kudan.kudan.ARActivity {
             meshnode.setMaterial(material);
         }
 
-        trackable.getWorld().addChild(modelnode);
-        modelnode.setVisible(true);
+        ararbitrack.getWorld().addChild(modelnode);
+        modelnode.setVisible(false);
     }
 
 }
