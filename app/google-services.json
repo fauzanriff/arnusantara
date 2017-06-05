@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "168460779814",
+    "firebase_url": "https://rahasianusantara-ec52e.firebaseio.com",
+    "project_id": "rahasianusantara-ec52e",
+    "storage_bucket": "rahasianusantara-ec52e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168460779814:android:5d7c21a6d42b6297",
+        "android_client_info": {
+          "package_name": "eu.kudan.rahasianusantara"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "168460779814-d0e95960h1ja55bs4c0lspmd5mbj023v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "eu.kudan.rahasianusantara",
+            "certificate_hash": "5bee40aad3878c6afe1e3d3a357aa6819b42d69b"
+          }
+        },
+        {
+          "client_id": "168460779814-0fprebta1puknescoanrtn11nh34nglr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUuUkZOagvMCtqhFMWlpolcCFY8hLB9kc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "168460779814-0fprebta1puknescoanrtn11nh34nglr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
