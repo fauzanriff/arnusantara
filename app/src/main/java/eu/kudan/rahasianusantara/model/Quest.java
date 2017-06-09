@@ -1,7 +1,5 @@
 package eu.kudan.rahasianusantara.model;
 
-import android.content.Intent;
-
 import java.util.ArrayList;
 
 /**
@@ -17,10 +15,10 @@ public class Quest {
     private String title;
     private String version;
     private String description;
-    private Double rating;
+    private String header;
+    private int rating;
     private String author;
     private int downloader;
-    private int rater;
     private int finisher;
     private int status;
     private int score;
@@ -34,7 +32,7 @@ public class Quest {
         comment = new ArrayList<Comment>();
     }
 
-    public Quest(int id, String title, String version, String description, Double rating, ArrayList pre, ArrayList mission, ArrayList comment) {
+    public Quest(int id, String title, String version, String description, int rating, ArrayList pre, ArrayList mission, ArrayList comment) {
         this.id = id;
         this.title = title;
         this.version = version;
@@ -69,6 +67,14 @@ public class Quest {
         this.version = version;
     }
 
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -77,11 +83,11 @@ public class Quest {
         this.description = description;
     }
 
-    public Double getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(Double rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 
@@ -123,14 +129,6 @@ public class Quest {
 
     public void setDownloader(int downloader) {
         this.downloader = downloader;
-    }
-
-    public int getRater() {
-        return rater;
-    }
-
-    public void setRater(int rater) {
-        this.rater = rater;
     }
 
     public int getFinisher() {

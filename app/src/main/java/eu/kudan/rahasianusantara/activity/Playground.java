@@ -20,7 +20,8 @@ import eu.kudan.kudan.ARTextureMaterial;
 import eu.kudan.rahasianusantara.R;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
-public class Playground extends eu.kudan.kudan.ARActivity {
+
+public class Playground extends eu.kudan.kudan.ARActivity{
 
     ARImageTrackable trackable;
     ARImageTracker trackmanager;
