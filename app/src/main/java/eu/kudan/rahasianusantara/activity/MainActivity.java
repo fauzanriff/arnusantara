@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ProfileMainComponent profileMainComponent;
 
-    private float density;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -65,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             return;
         }
-        density = getApplicationContext().getResources().getDisplayMetrics().density;
         createUser();
 
         // Request Permission Check
@@ -90,15 +87,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void createListener(){
         // Initial view
-        Button arButton = (Button) findViewById(R.id.arcamera_start);
-        Button questStoreButton = (Button) findViewById(R.id.quest_store);
-        Button addQuestButton = (Button) findViewById(R.id.quest_add);
         LinearLayout profileBar = (LinearLayout) findViewById(R.id.profile_bar);
+        LinearLayout playBar = (LinearLayout) findViewById(R.id.play_bar);
+        LinearLayout questBar = (LinearLayout) findViewById(R.id.quest_bar);
         // Sign the function
-        arButton.setOnClickListener(goToARCamera);
-        questStoreButton.setOnClickListener(goToStore);
-        addQuestButton.setOnClickListener(goToAddQuest);
         profileBar.setOnClickListener(goToProfile);
+        playBar.setOnClickListener(goToARCamera);
+        questBar.setOnClickListener(goToStore);
     }
 
     private void initLocation(){
@@ -235,14 +230,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(), QuestStoreActivity.class);
-            startActivity(intent);
-        }
-    };
-
-    private View.OnClickListener goToAddQuest = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), QuestEditActivity.class);
             startActivity(intent);
         }
     };

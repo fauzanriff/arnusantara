@@ -38,29 +38,6 @@
                         <!--android:layout_height="wrap_content" />-->
                 </LinearLayout>
 
-                <include layout="@layout/main__status" />
-
-                <Button
-                    android:id="@+id/arcamera_start"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="0dp"
-                    android:backgroundTint="#AD1457"
-                    android:text="Start"
-                    android:textColor="#FFFFFF" />
-
-                <Button
-                    android:id="@+id/quest_add"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Add Quest" />
-
-                <Button
-                    android:id="@+id/quest_store"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Quest Store" />
-
             </LinearLayout>
         </ScrollView>
 
@@ -69,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="#FFF"
-            android:elevation="30dp"
+            android:elevation="18dp"
             android:orientation="horizontal">
 
             <LinearLayout

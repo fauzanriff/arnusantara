@@ -2,9 +2,14 @@ package eu.kudan.rahasianusantara.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -22,7 +27,7 @@ import eu.kudan.rahasianusantara.R;
 import eu.kudan.rahasianusantara.component.ProfileQuestStoreComponent;
 import eu.kudan.rahasianusantara.model.Quest;
 
-public class QuestStoreActivity extends AppCompatActivity {
+public class QuestStoreActivity extends AppCompatActivity implements View.OnClickListener{
 
     // Firebase
     private FirebaseAuth firebaseAuth;
@@ -30,6 +35,7 @@ public class QuestStoreActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private ArrayList<Quest> questManager;
 
+    FloatingActionButton addQuestButton;
     LinearLayout questContainer;
 
     @Override
@@ -63,7 +69,16 @@ public class QuestStoreActivity extends AppCompatActivity {
     }
 
     private void setListener(){
+        addQuestButton = (FloatingActionButton) findViewById(R.id.quest_add_button);
 
+        addQuestButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view){
+        if(view == addQuestButton){
+            startActivity(new Intent(getApplicationContext(), QuestEditActivity.class));
+        }
     }
 
     private void getDatabaseQuest(){
@@ -98,6 +113,13 @@ public class QuestStoreActivity extends AppCompatActivity {
         questComponent.setHeaderQuest(input.getHeader());
         questComponent.setNameQuest(input.getTitle());
         questComponent.setAuthorQuest(input.getAuthor());
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        int margin = (int) getResources().getDimension(R.dimen.quest_component_margin);
+        layoutParams.setMargins(0,0,margin,0);
+
+        questComponent.setLayoutParams(layoutParams);
 
         questContainer.addView(questComponent);
     }
