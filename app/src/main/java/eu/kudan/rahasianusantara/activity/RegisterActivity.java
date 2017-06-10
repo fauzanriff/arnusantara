@@ -87,7 +87,8 @@ public class RegisterActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     // success action
                     Toast.makeText(RegisterActivity.this, "Your account registered successfully.", Toast.LENGTH_LONG).show();
-                    finish();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }else{
                     // fail action

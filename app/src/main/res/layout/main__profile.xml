@@ -1,87 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/colorBorderLight"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingBottom="1px">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        android:background="@color/colorPrimary"
+        android:clipToPadding="false"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/profile" />
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:text="Fauzan Rifqy"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextLight"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/profile_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="fauzanriff@gmail.com"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextLight"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:elevation="5dp"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
 
-            <ImageView
-                android:id="@+id/profile_picture"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/profile" />
+            <TextView
+                android:id="@+id/level_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="1"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <TextView
-                    android:id="@+id/profile_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingBottom="3dp"
-                    android:text="Fauzan Rifqy"
-                    android:textAlignment="textStart"
-                    android:textAllCaps="false"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/profile_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="fauzanriff@gmail.com"
-                    android:textAlignment="textStart"
-                    android:textColor="#AAAAAA"
-                    android:textSize="5pt" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/level_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LEVEL"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="0dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
+                <ProgressBar
+                    android:id="@+id/exp_progress"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="LEVEL"
-                    android:textAlignment="center"
-                    android:textColor="#AD1457"
-                    android:textSize="5pt"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/profile_level"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="#AD1457"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textAlignment="center"
-                    android:textColor="#FFF"
-                    android:textSize="10pt"
+                    android:max="100"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:progress="20"
+                    android:progressBackgroundTint="#000000"
+                    android:progressTint="@color/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/exp_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EXP"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
         </LinearLayout>
-    </android.support.v7.widget.CardView>
-</merge>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/achievement_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/acievement_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ACHIEVEMENT"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--<android.support.v7.widget.CardView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:cardElevation="5dp"-->
+    <!--app:cardUseCompatPadding="true">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="100dp"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/profile_picture"-->
+    <!--android:layout_width="100dp"-->
+    <!--android:layout_height="100dp"-->
+    <!--android:adjustViewBounds="true"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--android:src="@drawable/profile" />-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="2"-->
+    <!--android:orientation="vertical"-->
+    <!--android:padding="12dp">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/profile_name"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:paddingBottom="3dp"-->
+    <!--android:text="Fauzan Rifqy"-->
+    <!--android:textAlignment="textStart"-->
+    <!--android:textAllCaps="false"-->
+    <!--android:textColor="#000000"-->
+    <!--android:textSize="18sp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/profile_email"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:text="fauzanriff@gmail.com"-->
+    <!--android:textAlignment="textStart"-->
+    <!--android:textColor="#AAAAAA"-->
+    <!--android:textSize="5pt" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:orientation="vertical"-->
+    <!--android:padding="0dp">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="LEVEL"-->
+    <!--android:textAlignment="center"-->
+    <!--android:textColor="#AD1457"-->
+    <!--android:textSize="5pt"-->
+    <!--android:textStyle="bold" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/profile_level"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="#AD1457"-->
+    <!--android:gravity="center"-->
+    <!--android:text="1"-->
+    <!--android:textAlignment="center"-->
+    <!--android:textColor="#FFF"-->
+    <!--android:textSize="10pt"-->
+    <!--android:textStyle="bold" />-->
+    <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+    <!--</android.support.v7.widget.CardView>-->
+</LinearLayout>

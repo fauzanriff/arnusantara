@@ -76,7 +76,11 @@ public class UserEditActivity extends AppCompatActivity implements View.OnClickL
         profilePicture = (ImageView) findViewById(R.id.profile_picture_view);
 
         String uid = firebaseAuth.getCurrentUser().getUid();
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        DatabaseReference databaseReference = firebaseDatabase.getReference().child("Users/"+firebaseAuth.getCurrentUser().getUid());
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Tunggu sebentar...");
+        progressDialog.show();
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -84,13 +88,15 @@ public class UserEditActivity extends AppCompatActivity implements View.OnClickL
                 user = dataSnapshot.getValue(User.class);
                 if (user != null){
                     username.setText(user.getUsername());
-//                    new ImageRequest(profilePicture).execute(user.getPicture());
+                    new ImageRequest(profilePicture).execute(user.getPicture());
                 }
+                progressDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //failed
+                progressDialog.dismiss();
             }
         });
 

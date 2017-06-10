@@ -7,10 +7,13 @@ import java.util.ArrayList;
  */
 
 public class User {
+    private final static int EXPERIENCE_LEVEL = 100;
     private String id;
     private String username;
     private String email;
     private String picture;
+    private int level;
+    private int exp;
     private ArrayList<Integer> myquest;
 
     public User(){}
@@ -20,6 +23,8 @@ public class User {
         this.username = username;
         this.email = email;
         this.picture = "";
+        this.level = 0;
+        this.exp = 0;
     }
 
     public User(String id, String username, String email, String picture) {
@@ -27,6 +32,17 @@ public class User {
         this.username = username;
         this.email = email;
         this.picture = picture;
+        this.level = 0;
+        this.exp = 0;
+    }
+
+    public User(String id, String username, String email, String picture, int level, int exp) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.picture = picture;
+        this.level = level;
+        this.exp = exp;
     }
 
     public String getId() {
@@ -59,6 +75,30 @@ public class User {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
+    }
+
+    public void addExp(int amount){
+        exp += amount;
+        if (exp > EXPERIENCE_LEVEL){
+            level += exp/EXPERIENCE_LEVEL;
+            exp = exp%EXPERIENCE_LEVEL;
+        }
     }
 
     public ArrayList<Integer> getMyquest() {

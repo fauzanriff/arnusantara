@@ -6,6 +6,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -32,8 +35,14 @@ import eu.kudan.rahasianusantara.model.User;
 
 public class MainActivity extends AppCompatActivity {
 
+    public final static long LOCATION_MIN_TIME = 3000;
+    public final static float LOCATION_MIN_DISTANCE = 5.0f;
+
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+    private Location currentLocation;
     private User user;
 
     private ProfileMainComponent profileMainComponent;
@@ -45,21 +54,32 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         // Initial firebase
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
+
         // Authentication
-        if (firebaseAuth.getCurrentUser() == null){
+        if (firebaseAuth.getCurrentUser() == null) {
             finish();
-            startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             return;
         }
         density = getApplicationContext().getResources().getDisplayMetrics().density;
         createUser();
 
+        // Request Permission Check
+        permissionsRequest();
+
+        // Location
+        initLocation();
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_MIN_TIME, LOCATION_MIN_DISTANCE, locationListener);
+
+        // Init Kudan AR
         ARAPIKey key = ARAPIKey.getInstance();
         key.setAPIKey("iuozSmIwAUshClN0i0dDgqebtzCRLr/Oo40KUkGi1n/D9tJEj+n1mL/9Cpxjt2aZ7FFNzhJInREl/b9V2Ubpsp1wleDYDeGoCF32GUgo6di4tsHgrx903McfuD8RrQckIfPEPFnnz5eUnCIXw6A95HgQUTyak8X6fRgG1pvnl6cBzgNbF5U50Jsm57ONDQsqrQD2RtJKnuB87aKViJYD3EyFGjt1ZR7Sqvv324O0govHWLRjkVceOtdutnDNtV0UO/YROY6gqt92Lc9t1gevJCGTapi4Iv+8Se9CrzK3GxzGyqjVaD7rA14YxgjRHKS6DfSAdkWxHnU9oHTOGL4/aT1Oz4H5MSYJinA/H3+ijhC1VlyCYr7m+pq/U+/eqDPl2hEUU+Si4MQefK2NOe1OHRIJLnBZaYNsxhkWVfvEGaA3zXth4//c4BxL4xlpHASW5VDugrHVfX9oYNKG7GWH9/Ehk4ybQpYlKpFuQ2Hx5lc2MuLl4zs15Hx0cflupHoVh8GheZhrHV5FRYuOGxpqZOFTEUKq9V3PQd5tJtFhF+jvbCKMppCUhFnaiSK6zB/xLv8DJtDtXGGLAcfsVoXD+iWW+hleOODz/0sJaYss4YDhiksZGfkCUDAJqpolMDFnBWzXDVuJ1QotulMw/yiw36GAco+doIlN2WWBVV4oJ3A=");
-        permissionsRequest();
+
         attachUI();
         createListener();
     }
@@ -71,14 +91,38 @@ public class MainActivity extends AppCompatActivity {
     private void createListener(){
         // Initial view
         Button arButton = (Button) findViewById(R.id.arcamera_start);
-        Button logoutButton = (Button) findViewById(R.id.logout);
         Button questStoreButton = (Button) findViewById(R.id.quest_store);
-        Button editProfileButton = (Button) findViewById(R.id.edit_profile);
+        Button addQuestButton = (Button) findViewById(R.id.quest_add);
+        LinearLayout profileBar = (LinearLayout) findViewById(R.id.profile_bar);
         // Sign the function
         arButton.setOnClickListener(goToARCamera);
-        logoutButton.setOnClickListener(goToLogout);
         questStoreButton.setOnClickListener(goToStore);
-        editProfileButton.setOnClickListener(goToEditProfile);
+        addQuestButton.setOnClickListener(goToAddQuest);
+        profileBar.setOnClickListener(goToProfile);
+    }
+
+    private void initLocation(){
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                currentLocation = location;
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
     }
 
     private void updateProfileUI(){
@@ -136,12 +180,16 @@ public class MainActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED ||ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.INTERNET, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 111);
+                    new String[]{Manifest.permission.INTERNET, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 111);
 
         }
     }
@@ -183,29 +231,26 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private View.OnClickListener goToLogout = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            firebaseAuth.signOut();
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            finish();
-            startActivity(intent);
-        }
-    };
-
     private View.OnClickListener goToStore = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            firebaseAuth.signOut();
             Intent intent = new Intent(getApplicationContext(), QuestStoreActivity.class);
             startActivity(intent);
         }
     };
 
-    private View.OnClickListener goToEditProfile = new View.OnClickListener() {
+    private View.OnClickListener goToAddQuest = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), UserEditActivity.class);
+            Intent intent = new Intent(getApplicationContext(), QuestEditActivity.class);
+            startActivity(intent);
+        }
+    };
+
+    private View.OnClickListener goToProfile = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
             startActivity(intent);
         }
     };

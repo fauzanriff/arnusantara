@@ -7,87 +7,176 @@
     android:layout_height="match_parent"
     tools:context="eu.kudan.rahasianusantara.activity.MainActivity">
 
-    <!--<android.support.design.widget.AppBarLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:theme="@style/AppTheme.AppBarOverlay">-->
-
-        <!--<android.support.v7.widget.Toolbar-->
-            <!--android:id="@+id/toolbar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="?attr/actionBarSize"-->
-            <!--android:background="?attr/colorPrimary"-->
-            <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
-
-    <!--</android.support.design.widget.AppBarLayout>-->
-
-    <!--<include layout="@layout/content_main" />-->
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--app:srcCompat="@android:drawable/ic_dialog_email" />-->
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/colorBorderLight">
 
-        <LinearLayout
-            android:id="@+id/main_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fillViewport="true"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical">
 
             <LinearLayout
-                android:id="@+id/main_profile_container"
+                android:id="@+id/main_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
-                <!--<eu.kudan.rahasianusantara.component.ProfileMainComponent-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:id="@+id/main_profile"/>-->
+                android:paddingBottom="50dp">
+
+                <LinearLayout
+                    android:id="@+id/main_profile_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!--<eu.kudan.rahasianusantara.component.ProfileMainComponent-->
+                        <!--android:id="@+id/main_profile"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content" />-->
+                </LinearLayout>
+
+                <include layout="@layout/main__status" />
+
+                <Button
+                    android:id="@+id/arcamera_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="0dp"
+                    android:backgroundTint="#AD1457"
+                    android:text="Start"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/quest_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Quest" />
+
+                <Button
+                    android:id="@+id/quest_store"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Quest Store" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#FFF"
+            android:elevation="30dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/home_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:id="@+id/icon_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/home_icon" />
+
+                <TextView
+                    android:id="@+id/label_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Home"
+                    android:textAlignment="center"
+                    android:textColor="#333" />
             </LinearLayout>
 
-            <include layout="@layout/main__status" />
-
-            <Button
-                android:id="@+id/arcamera_start"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/quest_bar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:backgroundTint="#AD1457"
-                android:text="Start"
-                android:textColor="#FFFFFF" />
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
-            <Button
-                android:id="@+id/edit_profile"
-                android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/icon_quest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/quest_icon" />
+
+                <TextView
+                    android:id="@+id/label_quest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Quest"
+                    android:textAlignment="center"
+                    android:textColor="#333" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/play_bar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:backgroundTint="#AD1457"
-                android:text="Edit Profile"
-                android:textColor="#FFF" />
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:clipChildren="false"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
-            <Button
-                android:id="@+id/quest_store"
-                android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/icon_play"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/play_icon" />
+
+                <TextView
+                    android:id="@+id/label_play"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Play"
+                    android:textAlignment="center"
+                    android:textColor="#333" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/profile_bar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Quest Store" />
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
-            <Button
-                android:id="@+id/logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:backgroundTint="#AD1457"
-                android:text="Logout"
-                android:textColor="#FFFFFF" />
+                <ImageView
+                    android:id="@+id/icon_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/person_icon" />
 
+                <TextView
+                    android:id="@+id/label_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Profile"
+                    android:textAlignment="center"
+                    android:textColor="#333" />
+            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

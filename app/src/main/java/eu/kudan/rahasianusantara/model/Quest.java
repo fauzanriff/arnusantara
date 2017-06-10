@@ -11,7 +11,7 @@ public class Quest {
     public static final int QUEST_PENDING = 0;
     public static final int QUEST_ACCESSIBLE = 1;
     public static final int QUEST_SUCCESS = 2;
-    private int id;
+    private String id;
     private String title;
     private String version;
     private String description;
@@ -32,22 +32,45 @@ public class Quest {
         comment = new ArrayList<Comment>();
     }
 
-    public Quest(int id, String title, String version, String description, int rating, ArrayList pre, ArrayList mission, ArrayList comment) {
+    public Quest(String id, String title, String version, String description, String header, String author){
         this.id = id;
         this.title = title;
         this.version = version;
         this.description = description;
+        this.header = header;
+        this.author = author;
+        this.rating = 0;
+        this.downloader = 0;
+        this.finisher = 0;
+        this.status = QUEST_ACCESSIBLE;
+        this.score = 0;
+        pre = new ArrayList<Integer>();
+        mission = new ArrayList<Mission>();
+        comment = new ArrayList<Comment>();
+    }
+
+    public Quest(String id, String title, String version, String description, String header, int rating, String author, int downloader, int finisher, int status, int score, ArrayList<Integer> pre, ArrayList<Mission> mission, ArrayList<Comment> comment) {
+        this.id = id;
+        this.title = title;
+        this.version = version;
+        this.description = description;
+        this.header = header;
         this.rating = rating;
+        this.author = author;
+        this.downloader = downloader;
+        this.finisher = finisher;
+        this.status = status;
+        this.score = score;
         this.pre = pre;
         this.mission = mission;
         this.comment = comment;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
