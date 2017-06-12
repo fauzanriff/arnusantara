@@ -2,14 +2,11 @@ package eu.kudan.rahasianusantara.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -21,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import eu.kudan.rahasianusantara.R;
@@ -33,7 +31,8 @@ public class QuestStoreActivity extends AppCompatActivity implements View.OnClic
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private ArrayList<Quest> questManager;
+    private HashMap<Integer, ProfileQuestStoreComponent> questComponentManager;
+    private HashMap<Integer, Quest> questManager;
 
     FloatingActionButton addQuestButton;
     LinearLayout questContainer;
@@ -46,7 +45,8 @@ public class QuestStoreActivity extends AppCompatActivity implements View.OnClic
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-        questManager = new ArrayList<Quest>();
+        questManager = new HashMap();
+        questComponentManager = new HashMap();
 
         if (firebaseAuth.getCurrentUser()==null){
             Toast.makeText(QuestStoreActivity.this, "You need to sign in first", Toast.LENGTH_LONG).show();
@@ -78,6 +78,15 @@ public class QuestStoreActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view){
         if(view == addQuestButton){
             startActivity(new Intent(getApplicationContext(), QuestEditActivity.class));
+        }else{
+            for (Map.Entry<Integer, ProfileQuestStoreComponent> entry : questComponentManager.entrySet()){
+                if (view.getId() == entry.getKey()){
+                    Intent intent = new Intent(getApplicationContext(), QuestProfileActivity.class);
+                    intent.putExtra("quest", questManager.get(entry.getKey()));
+                    startActivity(intent);
+                    break;
+                }
+            }
         }
     }
 
@@ -108,19 +117,30 @@ public class QuestStoreActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void collectQuest(Quest input){
-        questManager.add(input);
-        ProfileQuestStoreComponent questComponent = new ProfileQuestStoreComponent(getApplicationContext());
-        questComponent.setHeaderQuest(input.getHeader());
-        questComponent.setNameQuest(input.getTitle());
-        questComponent.setAuthorQuest(input.getAuthor());
+        // If user is the owner of the quest
+        if (input.getAuthor().equals(firebaseAuth.getCurrentUser().getEmail())){
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            ProfileQuestStoreComponent questComponent = new ProfileQuestStoreComponent(getApplicationContext());
+            questComponent.setHeaderQuest(input.getHeader());
+            questComponent.setNameQuest(input.getTitle());
+            questComponent.setAuthorQuest(input.getAuthor());
+            questComponent.setIdQuest(input.getId());
 
-        int margin = (int) getResources().getDimension(R.dimen.quest_component_margin);
-        layoutParams.setMargins(0,0,margin,0);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        questComponent.setLayoutParams(layoutParams);
+            int margin = (int) getResources().getDimension(R.dimen.quest_component_margin);
+            layoutParams.setMargins(0,0,margin,0);
 
-        questContainer.addView(questComponent);
+            questComponent.setLayoutParams(layoutParams);
+            int uniqId = View.generateViewId();
+            questComponent.setId(uniqId);
+            questComponent.getChildAt(0).setId(uniqId);
+            questComponent.getChildAt(0).setOnClickListener(this);
+
+            questContainer.addView(questComponent);
+
+            questManager.put(uniqId, input);
+            questComponentManager.put(uniqId, questComponent);
+        }
     }
 }

@@ -1,12 +1,15 @@
 package eu.kudan.rahasianusantara.model;
 
+import android.location.Location;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by fauza on 6/5/2017.
  */
 
-public class Quest {
+public class Quest implements Serializable{
     public static final int QUEST_FAILED = -1;
     public static final int QUEST_PENDING = 0;
     public static final int QUEST_ACCESSIBLE = 1;
@@ -16,12 +19,11 @@ public class Quest {
     private String version;
     private String description;
     private String header;
-    private int rating;
+    private int upvote;
     private String author;
     private int downloader;
-    private int finisher;
-    private int status;
-    private int score;
+    private int achieved;
+    private Location location;
     private ArrayList<Integer> pre;
     private ArrayList<Mission> mission;
     private ArrayList<Comment> comment;
@@ -39,28 +41,40 @@ public class Quest {
         this.description = description;
         this.header = header;
         this.author = author;
-        this.rating = 0;
+        this.upvote = 0;
         this.downloader = 0;
-        this.finisher = 0;
-        this.status = QUEST_ACCESSIBLE;
-        this.score = 0;
+        this.achieved = 0;
         pre = new ArrayList<Integer>();
         mission = new ArrayList<Mission>();
         comment = new ArrayList<Comment>();
     }
 
-    public Quest(String id, String title, String version, String description, String header, int rating, String author, int downloader, int finisher, int status, int score, ArrayList<Integer> pre, ArrayList<Mission> mission, ArrayList<Comment> comment) {
+    public Quest(String id, String title, String version, String description, String header, String author, Location location){
         this.id = id;
         this.title = title;
         this.version = version;
         this.description = description;
         this.header = header;
-        this.rating = rating;
+        this.author = author;
+        this.upvote = 0;
+        this.downloader = 0;
+        this.achieved = 0;
+        this.location = location;
+        pre = new ArrayList<Integer>();
+        mission = new ArrayList<Mission>();
+        comment = new ArrayList<Comment>();
+    }
+
+    public Quest(String id, String title, String version, String description, String header, int rating, String author, int downloader, int achieved, int status, int score, ArrayList<Integer> pre, ArrayList<Mission> mission, ArrayList<Comment> comment) {
+        this.id = id;
+        this.title = title;
+        this.version = version;
+        this.description = description;
+        this.header = header;
+        this.upvote = rating;
         this.author = author;
         this.downloader = downloader;
-        this.finisher = finisher;
-        this.status = status;
-        this.score = score;
+        this.achieved = achieved;
         this.pre = pre;
         this.mission = mission;
         this.comment = comment;
@@ -106,12 +120,12 @@ public class Quest {
         this.description = description;
     }
 
-    public int getRating() {
-        return rating;
+    public int getUpvote() {
+        return upvote;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setUpvote(int upvote) {
+        this.upvote = upvote;
     }
 
     public ArrayList getPre() {
@@ -154,27 +168,12 @@ public class Quest {
         this.downloader = downloader;
     }
 
-    public int getFinisher() {
-        return finisher;
+    public int getAchieved() {
+        return achieved;
     }
 
-    public void setFinisher(int finisher) {
-        this.finisher = finisher;
+    public void setAchieved(int achieved) {
+        this.achieved = achieved;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
 }

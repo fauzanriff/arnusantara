@@ -38,6 +38,12 @@
                         <!--android:layout_height="wrap_content" />-->
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/main_map_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:orientation="vertical"></LinearLayout>
+
             </LinearLayout>
         </ScrollView>
 

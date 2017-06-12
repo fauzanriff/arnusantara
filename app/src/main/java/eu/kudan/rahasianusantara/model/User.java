@@ -14,6 +14,7 @@ public class User {
     private String picture;
     private int level;
     private int exp;
+    private int achievement;
     private ArrayList<Integer> myquest;
 
     public User(){}
@@ -34,15 +35,17 @@ public class User {
         this.picture = picture;
         this.level = 0;
         this.exp = 0;
+        this.achievement = 0;
     }
 
-    public User(String id, String username, String email, String picture, int level, int exp) {
+    public User(String id, String username, String email, String picture, int level, int exp, int achievement) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.picture = picture;
         this.level = level;
         this.exp = exp;
+        this.achievement = achievement;
     }
 
     public String getId() {
@@ -99,6 +102,18 @@ public class User {
             level += exp/EXPERIENCE_LEVEL;
             exp = exp%EXPERIENCE_LEVEL;
         }
+    }
+
+    public int getAchievement() {
+        return achievement;
+    }
+
+    public void setAchievement(int achievement) {
+        this.achievement = achievement;
+    }
+
+    public void addAchievement(){
+        this.achievement++;
     }
 
     public ArrayList<Integer> getMyquest() {

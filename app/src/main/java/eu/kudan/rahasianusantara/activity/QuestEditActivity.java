@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
 import android.media.Image;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +33,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 
+import eu.kudan.rahasianusantara.LocationController;
 import eu.kudan.rahasianusantara.R;
+import eu.kudan.rahasianusantara.component.MapFragment;
 import eu.kudan.rahasianusantara.component.ProfileMainComponent;
 import eu.kudan.rahasianusantara.model.Quest;
 import eu.kudan.rahasianusantara.model.User;
@@ -177,9 +182,31 @@ public class QuestEditActivity extends AppCompatActivity implements View.OnClick
         final String title = titleQuest.getText().toString();
         final String version = versionQuest.getText().toString();
         final String description = descriptionQuest.getText().toString();
-        final String author = firebaseAuth.getCurrentUser().getDisplayName();
-        // Upload quest to database
-        quest = new Quest(databaseKey, title, version, description, fileLink, author);
-        questReference.setValue(quest);
+        final String author = firebaseAuth.getCurrentUser().getEmail();
+        final LocationController locationController = new LocationController(getApplicationContext());
+        locationController.setListener(new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                quest = new Quest(databaseKey, title, version, description, fileLink, author, location);
+                questReference.setValue(quest);
+                questReference.child("location").setValue(location);
+                locationController.removeListener();
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        });
     }
 }

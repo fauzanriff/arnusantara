@@ -19,6 +19,7 @@ public class ProfileQuestStoreComponent extends CardView {
     private ImageView headerQuest;
     private TextView nameQuest;
     private TextView authorQuest;
+    private TextView idQuest;
 
     public ProfileQuestStoreComponent(Context context){
         super(context);
@@ -42,6 +43,7 @@ public class ProfileQuestStoreComponent extends CardView {
         headerQuest = (ImageView) findViewById(R.id.quest_header);
         nameQuest = (TextView) findViewById(R.id.quest_name);
         authorQuest = (TextView) findViewById(R.id.quest_author);
+        idQuest = (TextView) findViewById(R.id.quest_id);
     }
 
     public void setHeaderQuest(String link){
@@ -54,6 +56,10 @@ public class ProfileQuestStoreComponent extends CardView {
 
     public void setAuthorQuest(String author){
         authorQuest.setText(author);
+    }
+
+    public void setIdQuest (String id) {
+        idQuest.setText(id);
     }
 
 }
