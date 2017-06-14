@@ -1,12 +1,13 @@
 package eu.kudan.rahasianusantara.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by fauza on 6/5/2017.
  */
 
-public class User {
+public class User implements Serializable {
     private final static int EXPERIENCE_LEVEL = 100;
     private String id;
     private String username;
@@ -15,7 +16,7 @@ public class User {
     private int level;
     private int exp;
     private int achievement;
-    private ArrayList<Integer> myquest;
+    private ArrayList<String> myquest;
 
     public User(){}
 
@@ -26,6 +27,7 @@ public class User {
         this.picture = "";
         this.level = 0;
         this.exp = 0;
+        this.myquest = new ArrayList();
     }
 
     public User(String id, String username, String email, String picture) {
@@ -36,6 +38,7 @@ public class User {
         this.level = 0;
         this.exp = 0;
         this.achievement = 0;
+        this.myquest = new ArrayList();
     }
 
     public User(String id, String username, String email, String picture, int level, int exp, int achievement) {
@@ -46,6 +49,7 @@ public class User {
         this.level = level;
         this.exp = exp;
         this.achievement = achievement;
+        this.myquest = new ArrayList();
     }
 
     public String getId() {
@@ -116,11 +120,11 @@ public class User {
         this.achievement++;
     }
 
-    public ArrayList<Integer> getMyquest() {
+    public ArrayList<String> getMyquest() {
         return myquest;
     }
 
-    public void setMyquest(ArrayList<Integer> myquest) {
+    public void setMyquest(ArrayList<String> myquest) {
         this.myquest = myquest;
     }
 }

@@ -1,6 +1,7 @@
 package eu.kudan.rahasianusantara.model;
 
 import android.location.Location;
+import android.location.LocationManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,11 +20,12 @@ public class Quest implements Serializable{
     private String version;
     private String description;
     private String header;
+    private int numberOfMission;
     private int upvote;
     private String author;
     private int downloader;
     private int achieved;
-    private Location location;
+    private LatLng latLng;
     private ArrayList<Integer> pre;
     private ArrayList<Mission> mission;
     private ArrayList<Comment> comment;
@@ -44,12 +46,14 @@ public class Quest implements Serializable{
         this.upvote = 0;
         this.downloader = 0;
         this.achieved = 0;
+        this.numberOfMission = 0;
+        this.latLng = new LatLng();
         pre = new ArrayList<Integer>();
         mission = new ArrayList<Mission>();
         comment = new ArrayList<Comment>();
     }
 
-    public Quest(String id, String title, String version, String description, String header, String author, Location location){
+    public Quest(String id, String title, String version, String description, String header, String author, LatLng latLng){
         this.id = id;
         this.title = title;
         this.version = version;
@@ -59,7 +63,8 @@ public class Quest implements Serializable{
         this.upvote = 0;
         this.downloader = 0;
         this.achieved = 0;
-        this.location = location;
+        this.numberOfMission = 0;
+        this.latLng = new LatLng(latLng.getLat(), latLng.getLng());
         pre = new ArrayList<Integer>();
         mission = new ArrayList<Mission>();
         comment = new ArrayList<Comment>();
@@ -110,6 +115,18 @@ public class Quest implements Serializable{
 
     public void setHeader(String header) {
         this.header = header;
+    }
+
+    public int getNumberOfMission() {
+        return numberOfMission;
+    }
+
+    public void setNumberOfMission(int numberOfMission) {
+        this.numberOfMission = numberOfMission;
+    }
+
+    public void incMission(){
+        this.numberOfMission++;
     }
 
     public String getDescription() {
@@ -176,4 +193,11 @@ public class Quest implements Serializable{
         this.achieved = achieved;
     }
 
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
+    }
 }

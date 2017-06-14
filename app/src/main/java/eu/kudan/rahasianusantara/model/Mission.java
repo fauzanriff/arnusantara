@@ -1,39 +1,41 @@
 package eu.kudan.rahasianusantara.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by fauza on 6/5/2017.
  */
 
-public class Mission {
+public class Mission implements Serializable {
     public static final int MISSION_FAILED = -1;
     public static final int MISSION_PENDING = 0;
     public static final int MISSION_ACCESSIBLE = 1;
     public static final int MISSION_SUCCESS = 2;
+    public static final int MODEL_3D = 1;
+    public static final int MODEL_IMAGE = 2;
+    public static final int MODEL_VIDEO = 3;
+    public static final int BASED_MARKER = 1;
+    public static final int BASED_MARKERLESS = 1;
     private int id;
     private String title;
-    private int status;
-    private ArrayList<Integer> next;
-    private ArrayList<Integer> prev;
-    private double longitude;
-    private double latitude;
+    private int order;
+    private LatLng latLng;
+    private int modelType;
+    private int arBased;
     private ArrayList<String> dialogue;
 
     public Mission(){
-        next = new ArrayList<Integer>();
-        prev = new ArrayList<Integer>();
         dialogue = new ArrayList<String>();
     }
 
-    public Mission(int id, String title, int status, ArrayList<Integer> next, ArrayList<Integer> prev, double longitude, double latitude, ArrayList<String> dialogue) {
+    public Mission(int id, String title, int order, int modelType, int arBased, LatLng latLng, ArrayList<String> dialogue) {
         this.id = id;
         this.title = title;
-        this.status = status;
-        this.next = next;
-        this.prev = prev;
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.order = order;
+        this.modelType = modelType;
+        this.arBased = arBased;
+        this.latLng = latLng;
         this.dialogue = dialogue;
     }
 
@@ -53,44 +55,36 @@ public class Mission {
         this.title = title;
     }
 
-    public int getStatus() {
-        return status;
+    public int getOrder() {
+        return order;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setOrder(int order) {
+        this.order = order;
     }
 
-    public ArrayList<Integer> getNext() {
-        return next;
+    public int getModelType() {
+        return modelType;
     }
 
-    public void setNext(ArrayList<Integer> next) {
-        this.next = next;
+    public void setModelType(int modelType) {
+        this.modelType = modelType;
     }
 
-    public ArrayList<Integer> getPrev() {
-        return prev;
+    public int getArBased() {
+        return arBased;
     }
 
-    public void setPrev(ArrayList<Integer> prev) {
-        this.prev = prev;
+    public void setArBased(int arBased) {
+        this.arBased = arBased;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public LatLng getLatLng() {
+        return latLng;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
     }
 
     public ArrayList<String> getDialogue() {

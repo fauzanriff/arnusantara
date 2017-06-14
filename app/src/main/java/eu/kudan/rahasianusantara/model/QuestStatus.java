@@ -11,6 +11,7 @@ public class QuestStatus {
     private int status;
     private int vote;
     private int score;
+    private int orderStatus;
     private ArrayList<MissionStatus> missionStatus;
 
     public QuestStatus (){}
@@ -60,5 +61,13 @@ public class QuestStatus {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(int orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

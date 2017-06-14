@@ -33,6 +33,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 
+import eu.kudan.rahasianusantara.ImageRequest;
 import eu.kudan.rahasianusantara.LocationController;
 import eu.kudan.rahasianusantara.R;
 import eu.kudan.rahasianusantara.component.MapFragment;
@@ -49,6 +50,7 @@ public class QuestEditActivity extends AppCompatActivity implements View.OnClick
     DatabaseReference questReference;
 
     Quest quest;
+    boolean editable;
 
     Uri filePath;
 
@@ -66,6 +68,10 @@ public class QuestEditActivity extends AppCompatActivity implements View.OnClick
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
+
+        // Get quest
+        quest = (Quest) getIntent().getSerializableExtra("quest");
+        editable = false;
 
         // Check User Authentication
         if (firebaseAuth.getCurrentUser()==null){
@@ -95,6 +101,17 @@ public class QuestEditActivity extends AppCompatActivity implements View.OnClick
         titleQuest = (EditText) findViewById(R.id.quest_name);
         versionQuest = (EditText) findViewById(R.id.quest_version);
         descriptionQuest = (EditText) findViewById(R.id.quest_description);
+        if (quest != null){
+            editable = true;
+            initQuestView();
+        }
+    }
+
+    private void initQuestView(){
+        new ImageRequest(headerPicture).execute(quest.getHeader());
+        titleQuest.setText(quest.getTitle());
+        versionQuest.setText(quest.getVersion());
+        descriptionQuest.setText(quest.getDescription());
     }
 
 
@@ -103,7 +120,11 @@ public class QuestEditActivity extends AppCompatActivity implements View.OnClick
         if (view == choosePictureButton){
             choosePhotoFromLibrary();
         }else if(view == saveQuestButton){
-            saveQuest();
+            if(!editable){
+                saveQuest();
+            }else{
+                editQuest();
+            }
         }
     }
 
@@ -131,6 +152,48 @@ public class QuestEditActivity extends AppCompatActivity implements View.OnClick
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    protected void editQuest(){
+        // Init storage and DB
+        questReference = firebaseDatabase.getReference().child("Quests").child(quest.getId());
+        databaseKey = quest.getId();
+        StorageReference headerReference = storageReference.child("Images/questsHeader/"+databaseKey);
+
+        // Check file path
+        if (filePath == null){
+            updateQuestToDatabase();
+        }else{
+            // Create progress dialog
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading your quest...");
+            progressDialog.show();
+
+            // Upload header
+            headerReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                    Toast.makeText(QuestEditActivity.this, "Your quest edited successfully", Toast.LENGTH_LONG).show();
+                    // Create Quest
+                    fileLink = taskSnapshot.getDownloadUrl().toString();
+                    quest.setHeader(fileLink);
+                    updateQuestToDatabase();
+                    finish();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(QuestEditActivity.this, "Your quest failure to upload, please try again", Toast.LENGTH_LONG).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    // On Progress
+                }
+            });
         }
     }
 
@@ -177,6 +240,21 @@ public class QuestEditActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
+    protected void updateQuestToDatabase(){
+        // Initialize data input
+        final String title = titleQuest.getText().toString();
+        final String version = versionQuest.getText().toString();
+        final String description = descriptionQuest.getText().toString();
+        final String author = firebaseAuth.getCurrentUser().getEmail();
+
+        quest.setTitle(title);
+        quest.setVersion(version);
+        quest.setDescription(description);
+        quest.setAuthor(author);
+
+        questReference.setValue(quest);
+    }
+
     protected void saveQuestToDatabase(){
         // Initialize data input
         final String title = titleQuest.getText().toString();
@@ -187,9 +265,9 @@ public class QuestEditActivity extends AppCompatActivity implements View.OnClick
         locationController.setListener(new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                quest = new Quest(databaseKey, title, version, description, fileLink, author, location);
+                eu.kudan.rahasianusantara.model.LatLng currentLatLng = new eu.kudan.rahasianusantara.model.LatLng(location.getLatitude(), location.getLongitude());
+                quest = new Quest(databaseKey, title, version, description, fileLink, author, currentLatLng);
                 questReference.setValue(quest);
-                questReference.child("location").setValue(location);
                 locationController.removeListener();
             }
 

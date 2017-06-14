@@ -1,7 +1,9 @@
 package eu.kudan.rahasianusantara.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -10,10 +12,11 @@ import eu.kudan.rahasianusantara.R;
 import eu.kudan.rahasianusantara.component.ProfileQuestSingleComponent;
 import eu.kudan.rahasianusantara.model.Quest;
 
-public class QuestProfileActivity extends AppCompatActivity {
+public class QuestProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     FirebaseAuth firebaseAuth;
 
+    LinearLayout questEditButton;
     Quest quest;
 
     @Override
@@ -30,6 +33,8 @@ public class QuestProfileActivity extends AppCompatActivity {
         // Initialize View
         initView();
 
+        // Set Listener
+        setListener();
     }
 
     private void initView(){
@@ -47,5 +52,20 @@ public class QuestProfileActivity extends AppCompatActivity {
 
         LinearLayout questContainer = (LinearLayout) findViewById(R.id.quest_profile_container);
         questContainer.addView(questComponent, 0);
+    }
+
+    private void setListener(){
+        questEditButton = (LinearLayout) findViewById(R.id.quest_edit_button);
+
+        questEditButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view){
+        if (view == questEditButton){
+            Intent intent = new Intent(getApplicationContext(), QuestEditActivity.class);
+            intent.putExtra("quest", quest);
+            startActivity(intent);
+        }
     }
 }

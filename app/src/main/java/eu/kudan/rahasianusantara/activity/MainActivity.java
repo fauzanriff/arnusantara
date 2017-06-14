@@ -112,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
             profileMainComponent.setProfileName(user.getUsername());
             profileMainComponent.setProfileEmail(user.getEmail());
             profileMainComponent.setProfilePicture(user.getPicture());
+            profileMainComponent.setLevelAmount(user.getLevel());
+            profileMainComponent.setAchievementAmount(user.getAchievement());
+            profileMainComponent.setExpProgress(user.getExp());
 
             LinearLayout root = (LinearLayout) findViewById(R.id.main_profile_container);
             root.addView(profileMainComponent, 0);

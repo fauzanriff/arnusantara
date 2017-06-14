@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import eu.kudan.rahasianusantara.ImageRequest;
@@ -21,6 +22,9 @@ public class ProfileMainComponent extends CardView{
     ImageView profilePicture;
     TextView profileName;
     TextView profileEmail;
+    TextView levelAmount;
+    TextView achievementAmount;
+    ProgressBar expProgress;
 
     public ProfileMainComponent(Context context){
         super(context);
@@ -43,6 +47,9 @@ public class ProfileMainComponent extends CardView{
         profilePicture = (ImageView) findViewById(R.id.profile_picture);
         profileName = (TextView) findViewById(R.id.profile_name);
         profileEmail = (TextView) findViewById(R.id.profile_email);
+        levelAmount = (TextView) findViewById(R.id.level_amount);
+        achievementAmount = (TextView) findViewById(R.id.achievement_amount);
+        expProgress = (ProgressBar) findViewById(R.id.exp_progress);
     }
 
     public void setProfilePicture(String link){
@@ -55,5 +62,17 @@ public class ProfileMainComponent extends CardView{
 
     public void setProfileEmail(String email){
         profileEmail.setText(email);
+    }
+
+    public void setLevelAmount (int level){
+        levelAmount.setText(String.valueOf(level));
+    }
+
+    public void setAchievementAmount (int amount){
+        achievementAmount.setText(String.valueOf(amount));
+    }
+
+    public void setExpProgress (int amount){
+        expProgress.setProgress(amount );
     }
 }

@@ -28,7 +28,9 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.Playground" />
-        <activity android:name=".activity.RegisterActivity" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,7 +42,9 @@
             android:name=".activity.QuestStoreActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.UserEditActivity" />
-        <activity android:name=".activity.QuestEditActivity" />
+        <activity
+            android:name=".activity.QuestEditActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.ProfileActivity" />
 
         <meta-data
