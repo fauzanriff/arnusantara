@@ -21,6 +21,8 @@ public class Mission implements Serializable {
     private String title;
     private int order;
     private LatLng latLng;
+    private String modelLink;
+    private String markerLink;
     private int modelType;
     private int arBased;
     private ArrayList<String> dialogue;
@@ -29,12 +31,14 @@ public class Mission implements Serializable {
         dialogue = new ArrayList<String>();
     }
 
-    public Mission(int id, String title, int order, int modelType, int arBased, LatLng latLng, ArrayList<String> dialogue) {
+    public Mission(int id, String title, int order, int modelType, String modelLink, String markerLink, int arBased, LatLng latLng, ArrayList<String> dialogue) {
         this.id = id;
         this.title = title;
         this.order = order;
         this.modelType = modelType;
+        this.modelLink = modelLink;
         this.arBased = arBased;
+        this.markerLink = markerLink;
         this.latLng = latLng;
         this.dialogue = dialogue;
     }
@@ -85,6 +89,22 @@ public class Mission implements Serializable {
 
     public void setLatLng(LatLng latLng) {
         this.latLng = latLng;
+    }
+
+    public String getModelLink() {
+        return modelLink;
+    }
+
+    public void setModelLink(String modelLink) {
+        this.modelLink = modelLink;
+    }
+
+    public String getMarkerLink() {
+        return markerLink;
+    }
+
+    public void setMarkerLink(String markerLink) {
+        this.markerLink = markerLink;
     }
 
     public ArrayList<String> getDialogue() {

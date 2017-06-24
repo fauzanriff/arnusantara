@@ -47,7 +47,7 @@
                             android:layout_height="wrap_content"
                             android:paddingBottom="5dp"
                             android:paddingTop="10dp"
-                            android:text="2"
+                            android:text="0"
                             android:textAlignment="center"
                             android:textColor="@color/colorTextLight"
                             android:textSize="18sp"
@@ -70,20 +70,19 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
-                        android:background="@color/colorBackgroundWhite"
+                        android:background="@color/colorBackgrounHighlight"
                         android:elevation="6dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@color/colorBackgrounHighlight"
                             android:orientation="horizontal"
                             android:paddingLeft="10dp">
 
                             <android.support.v7.widget.CardView
                                 android:id="@+id/add_mission_card"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_width="180dp"
+                                android:layout_height="180dp"
                                 android:clickable="true"
                                 android:elevation="9dp"
                                 android:foreground="?android:attr/selectableItemBackground"
@@ -95,7 +94,7 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:gravity="center_vertical"
+                                    android:gravity="center_vertical|center_horizontal"
                                     android:orientation="vertical"
                                     android:paddingLeft="10dp"
                                     android:paddingRight="10dp"
@@ -103,176 +102,23 @@
 
                                     <ImageView
                                         android:id="@+id/imageView2"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:paddingBottom="10dp"
                                         app:srcCompat="@drawable/mission_add_icon" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Add Mission" />
                                 </LinearLayout>
 
                             </android.support.v7.widget.CardView>
+                            <eu.kudan.rahasianusantara.component.MissionSingleComponent
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
 
-                            <android.support.v7.widget.CardView
-                                android:layout_width="180dp"
-                                android:layout_height="180dp"
-                                android:clickable="true"
-                                android:elevation="9dp"
-                                android:foreground="?android:attr/selectableItemBackground"
-                                app:cardBackgroundColor="#F5F5F5"
-                                app:cardCornerRadius="10dp"
-                                app:cardElevation="6dp"
-                                app:cardUseCompatPadding="true">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:paddingLeft="10dp"
-                                    android:paddingRight="10dp"
-                                    android:paddingTop="2dp">
-
-                                    <TextView
-                                        android:id="@+id/order_mission"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="2"
-                                        android:textAlignment="center"
-                                        android:textColor="@color/colorTextHighlight"
-                                        android:textSize="12sp" />
-
-                                    <TextView
-                                        android:id="@+id/title_mission"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:maxHeight="48dp"
-                                        android:text="Pencarian Savoy Homan"
-                                        android:textAlignment="center"
-                                        android:textAllCaps="false"
-                                        android:textColor="@color/colorTextHighlight"
-                                        android:textSize="16sp"
-                                        android:textStyle="bold" />
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center_vertical"
-                                        android:orientation="horizontal">
-
-                                        <ImageView
-                                            android:id="@+id/model_type_icon"
-                                            android:layout_width="0dp"
-                                            android:layout_height="50dp"
-                                            android:layout_weight="1"
-                                            android:paddingBottom="5dp"
-                                            android:scaleType="fitCenter"
-                                            app:srcCompat="@drawable/model_3d_icon" />
-
-                                    </LinearLayout>
-
-                                    <TextView
-                                        android:id="@+id/model_type_label"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="3D Model"
-                                        android:textAlignment="center"
-                                        android:textAllCaps="false"
-                                        android:textColor="@color/colorTextDark"
-                                        android:textSize="12sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/mission_based"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Markerless"
-                                        android:textAlignment="center"
-                                        android:textAllCaps="false"
-                                        android:textColor="@color/colorTextSubDark"
-                                        android:textSize="12sp"
-                                        android:textStyle="bold" />
-
-                                </LinearLayout>
-                            </android.support.v7.widget.CardView>
-
-                            <android.support.v7.widget.CardView
-                                android:layout_width="180dp"
-                                android:layout_height="180dp"
-                                android:clickable="true"
-                                android:elevation="9dp"
-                                android:foreground="?android:attr/selectableItemBackground"
-                                app:cardBackgroundColor="#F5F5F5"
-                                app:cardCornerRadius="10dp"
-                                app:cardElevation="6dp"
-                                app:cardUseCompatPadding="true">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:paddingLeft="10dp"
-                                    android:paddingRight="10dp"
-                                    android:paddingTop="2dp">
-
-                                    <TextView
-                                        android:id="@+id/order_mission"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="2"
-                                        android:textAlignment="center"
-                                        android:textColor="@color/colorTextHighlight"
-                                        android:textSize="12sp" />
-
-                                    <TextView
-                                        android:id="@+id/title_mission"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:maxHeight="48dp"
-                                        android:text="Bandung Lautan Api Intro"
-                                        android:textAlignment="center"
-                                        android:textAllCaps="false"
-                                        android:textColor="@color/colorTextHighlight"
-                                        android:textSize="16sp"
-                                        android:textStyle="bold" />
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center_vertical"
-                                        android:orientation="horizontal">
-
-                                        <ImageView
-                                            android:id="@+id/model_type_icon"
-                                            android:layout_width="0dp"
-                                            android:layout_height="50dp"
-                                            android:layout_weight="1"
-                                            android:paddingBottom="5dp"
-                                            android:scaleType="fitCenter"
-                                            app:srcCompat="@drawable/model_video_icon" />
-
-                                    </LinearLayout>
-
-                                    <TextView
-                                        android:id="@+id/model_type_label"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Video Model"
-                                        android:textAlignment="center"
-                                        android:textAllCaps="false"
-                                        android:textColor="@color/colorTextDark"
-                                        android:textSize="12sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/mission_based"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Markerless"
-                                        android:textAlignment="center"
-                                        android:textAllCaps="false"
-                                        android:textColor="@color/colorTextSubDark"
-                                        android:textSize="12sp"
-                                        android:textStyle="bold" />
-
-                                </LinearLayout>
-                            </android.support.v7.widget.CardView>
+                            </eu.kudan.rahasianusantara.component.MissionSingleComponent>
                         </LinearLayout>
                     </HorizontalScrollView>
 

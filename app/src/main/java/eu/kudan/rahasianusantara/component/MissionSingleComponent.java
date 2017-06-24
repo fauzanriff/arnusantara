@@ -42,6 +42,12 @@ public class MissionSingleComponent extends CardView {
     private void init(Context context){
         View.inflate(context, R.layout.mission_single_profile, this);
         setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+
+        orderMission = (TextView) findViewById(R.id.order_mission);
+        titleMission = (TextView) findViewById(R.id.title_mission);
+        modelTypeLabel = (TextView) findViewById(R.id.model_type_label);
+        missionBased = (TextView) findViewById(R.id.mission_based);
+        modelTypeIcon = (ImageView) findViewById(R.id.model_type_icon);
     }
 
     public void setOrderMission(int order){

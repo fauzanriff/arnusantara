@@ -51,7 +51,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCFGbjJGOIcHTca9ePcuZFz3K62P6LIVxY" />
 
-        <activity android:name=".activity.QuestProfileActivity"></activity>
+        <activity android:name=".activity.QuestProfileActivity" />
+        <activity android:name=".activity.MissionEditActivity"></activity>
     </application>
 
 </manifest>

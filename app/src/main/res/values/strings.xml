@@ -19,4 +19,16 @@
     <string name="prompt_reenter_password">Re-enter Password</string>
     <string name="action_sign_up">Sign Up</string>
     <string name="action_sign_in">Sign in</string>
+
+    <string-array name="spinner_model_type">
+        <item>3D Model</item>
+        <item>Image Model</item>
+        <item>Video Model</item>
+    </string-array>
+
+    <string-array name="spinner_marker_based">
+        <item>Marker</item>
+        <item>Markerless</item>
+    </string-array>
+
 </resources>
