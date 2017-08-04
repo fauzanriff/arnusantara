@@ -3,6 +3,7 @@ package eu.kudan.rahasianusantara.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -17,6 +18,7 @@ public class QuestProfileActivity extends AppCompatActivity implements View.OnCl
     FirebaseAuth firebaseAuth;
 
     LinearLayout questEditButton;
+    CardView addMissionButton;
     Quest quest;
 
     @Override
@@ -56,8 +58,10 @@ public class QuestProfileActivity extends AppCompatActivity implements View.OnCl
 
     private void setListener(){
         questEditButton = (LinearLayout) findViewById(R.id.quest_edit_button);
+        addMissionButton = (CardView) findViewById(R.id.add_mission_card);
 
         questEditButton.setOnClickListener(this);
+        addMissionButton.setOnClickListener(this);
     }
 
     @Override
@@ -65,6 +69,9 @@ public class QuestProfileActivity extends AppCompatActivity implements View.OnCl
         if (view == questEditButton){
             Intent intent = new Intent(getApplicationContext(), QuestEditActivity.class);
             intent.putExtra("quest", quest);
+            startActivity(intent);
+        }else if(view == addMissionButton){
+            Intent intent = new Intent(getApplicationContext(), MissionEditActivity.class);
             startActivity(intent);
         }
     }
