@@ -12,12 +12,12 @@ public class Mission implements Serializable {
     public static final int MISSION_PENDING = 0;
     public static final int MISSION_ACCESSIBLE = 1;
     public static final int MISSION_SUCCESS = 2;
-    public static final int MODEL_3D = 1;
-    public static final int MODEL_IMAGE = 2;
-    public static final int MODEL_VIDEO = 3;
+    public static final int MODEL_3D = 0;
+    public static final int MODEL_IMAGE = 1;
+    public static final int MODEL_VIDEO = 2;
     public static final int BASED_MARKER = 1;
-    public static final int BASED_MARKERLESS = 1;
-    private int id;
+    public static final int BASED_MARKERLESS = 0;
+    private String id;
     private String title;
     private int order;
     private LatLng latLng;
@@ -29,7 +29,7 @@ public class Mission implements Serializable {
 
     public Mission(){}
 
-    public Mission(int id, String title, int order, int modelType, String modelLink, String markerLink, int arBased, LatLng latLng, String dialogue) {
+    public Mission(String id, String title, int order, int modelType, String modelLink, String markerLink, int arBased, LatLng latLng, String dialogue) {
         this.id = id;
         this.title = title;
         this.order = order;
@@ -41,11 +41,11 @@ public class Mission implements Serializable {
         this.dialogue = dialogue;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

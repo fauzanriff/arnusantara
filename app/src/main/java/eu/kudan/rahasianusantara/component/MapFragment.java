@@ -36,6 +36,7 @@ public class MapFragment extends Fragment{
     private MapView mapView;
     private GoogleMap map;
     LocationController locationController;
+    eu.kudan.rahasianusantara.model.LatLng currentLocation;
 
     private Context context;
 
@@ -50,6 +51,7 @@ public class MapFragment extends Fragment{
         mapView = (MapView) v.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         locationController = new LocationController(context);
+        currentLocation = new eu.kudan.rahasianusantara.model.LatLng(-6.914744, 107.609810);
 
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -66,6 +68,7 @@ public class MapFragment extends Fragment{
                         MapsInitializer.initialize(context);
                         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14.0f);
                         map.animateCamera(cameraUpdate);
+                        currentLocation = new eu.kudan.rahasianusantara.model.LatLng(location.getLatitude(), location.getLongitude());
                     }
 
                     @Override
@@ -111,5 +114,9 @@ public class MapFragment extends Fragment{
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
+    }
+
+    public eu.kudan.rahasianusantara.model.LatLng getCurrentLocation(){
+        return currentLocation;
     }
 }

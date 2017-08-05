@@ -132,9 +132,9 @@ public class UserEditActivity extends AppCompatActivity implements View.OnClickL
         }
 
         // Create progress dialog
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading your profile data...");
-            progressDialog.show();
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading your profile data...");
+        progressDialog.show();
 
         // Uploading to storage
         StorageReference profileReference = storageReference.child("Images/profiles/"+id);

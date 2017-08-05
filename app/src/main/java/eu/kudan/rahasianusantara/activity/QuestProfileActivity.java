@@ -72,6 +72,7 @@ public class QuestProfileActivity extends AppCompatActivity implements View.OnCl
             startActivity(intent);
         }else if(view == addMissionButton){
             Intent intent = new Intent(getApplicationContext(), MissionEditActivity.class);
+            intent.putExtra("quest", quest);
             startActivity(intent);
         }
     }
