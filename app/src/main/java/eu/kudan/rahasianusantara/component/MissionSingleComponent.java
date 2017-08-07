@@ -69,13 +69,13 @@ public class MissionSingleComponent extends CardView {
     public void setModelTypeIcon(String icon){
         switch (icon){
             case MODEL_3D:
-                modelTypeIcon.setBackgroundResource(R.drawable.model_3d_icon);
+                modelTypeIcon.setImageResource(R.drawable.model_3d_icon);
                 break;
             case MODEL_VIDEO:
-                modelTypeIcon.setBackgroundResource(R.drawable.model_video_icon);
+                modelTypeIcon.setImageResource(R.drawable.model_video_icon);
                 break;
             case MODEL_IMAGE:
-                modelTypeIcon.setBackgroundResource(R.drawable.model_image_icon);
+                modelTypeIcon.setImageResource(R.drawable.model_image_icon);
                 break;
         }
     }

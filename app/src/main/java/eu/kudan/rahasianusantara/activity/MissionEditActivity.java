@@ -22,8 +22,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -34,6 +37,7 @@ import java.util.HashMap;
 
 import eu.kudan.rahasianusantara.R;
 import eu.kudan.rahasianusantara.component.MapFragment;
+import eu.kudan.rahasianusantara.component.MissionSingleComponent;
 import eu.kudan.rahasianusantara.model.Mission;
 import eu.kudan.rahasianusantara.model.Quest;
 
@@ -86,14 +90,9 @@ public class MissionEditActivity extends AppCompatActivity implements View.OnCli
 
         // Get Mission Database
         mission = new Mission();
-//        getMissionDatabase();
 
         renderView();
         setListener();
-    }
-
-    private void getMissionDatabase(){
-//        DatabaseReference missionRefference = databaseReference.child("Quests/");
     }
 
     private void renderView(){
@@ -257,8 +256,7 @@ public class MissionEditActivity extends AppCompatActivity implements View.OnCli
         mission.setModelType(modelType.getSelectedItemPosition());
         mission.setArBased(markerBased.isEnabled() ? mission.BASED_MARKER : mission.BASED_MARKERLESS);
         mission.setDialogue(missionDialogue.getText().toString());
-        // upload model
-        // upload marker
+        // upload marker and model
         if (mission.getArBased() == mission.BASED_MARKER){
             uploadMarker();
         }else{
