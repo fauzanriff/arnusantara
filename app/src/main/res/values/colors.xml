@@ -7,6 +7,7 @@
     <color name="colorBackgroundDark" type="color">#222222</color>
     <color name="colorBackgroundLight" type="color">#CFD8DC</color>
     <color name="colorBackgrounHighlight" type="color">#FFF8E1</color>
+    <color name="colorBackgroundTeal" type="color">#009688</color>
     <color name="colorTextDark" type="color">#333333</color>
     <color name="colorTextSubDark" type="color">#999999</color>
     <color name="colorTextLight" type="color">#FFFFFF</color>

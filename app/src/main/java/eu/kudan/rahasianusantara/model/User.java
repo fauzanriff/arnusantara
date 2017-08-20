@@ -2,6 +2,7 @@ package eu.kudan.rahasianusantara.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by fauza on 6/5/2017.
@@ -16,7 +17,7 @@ public class User implements Serializable {
     private int level;
     private int exp;
     private int achievement;
-    private ArrayList<String> myquest;
+    private List<String> quests;
 
     public User(){}
 
@@ -27,7 +28,7 @@ public class User implements Serializable {
         this.picture = "";
         this.level = 0;
         this.exp = 0;
-        this.myquest = new ArrayList();
+        this.quests = new ArrayList();
     }
 
     public User(String id, String username, String email, String picture) {
@@ -38,7 +39,7 @@ public class User implements Serializable {
         this.level = 0;
         this.exp = 0;
         this.achievement = 0;
-        this.myquest = new ArrayList();
+        this.quests = new ArrayList();
     }
 
     public User(String id, String username, String email, String picture, int level, int exp, int achievement) {
@@ -49,7 +50,21 @@ public class User implements Serializable {
         this.level = level;
         this.exp = exp;
         this.achievement = achievement;
-        this.myquest = new ArrayList();
+        this.quests = new ArrayList();
+    }
+
+    public User(String id, String username, String email, String picture, int level, int exp, int achievement, List<String> lists) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.picture = picture;
+        this.level = level;
+        this.exp = exp;
+        this.achievement = achievement;
+        this.quests = new ArrayList();
+        for(int i=0; i < lists.size(); i++){
+            this.quests.add(lists.get(i));
+        }
     }
 
     public String getId() {
@@ -120,11 +135,15 @@ public class User implements Serializable {
         this.achievement++;
     }
 
-    public ArrayList<String> getMyquest() {
-        return myquest;
+    public List<String> getQuests() {
+        return quests;
     }
 
-    public void setMyquest(ArrayList<String> myquest) {
-        this.myquest = myquest;
+    public void setQuests(List<String> myquest) {
+        this.quests = myquest;
+    }
+
+    public void addQuest(String qid){
+        this.quests.add(qid);
     }
 }

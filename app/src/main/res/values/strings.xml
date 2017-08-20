@@ -26,4 +26,7 @@
         <item>Video Model</item>
     </string-array>
 
+    <string name="file_quests">Quests.data</string>
+    <string name="noquest">You have no quest to show.</string>
+
 </resources>

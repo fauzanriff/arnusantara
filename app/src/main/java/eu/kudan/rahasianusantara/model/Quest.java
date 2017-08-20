@@ -1,10 +1,23 @@
 package eu.kudan.rahasianusantara.model;
 
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Environment;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import eu.kudan.rahasianusantara.R;
 
 /**
  * Created by fauza on 6/5/2017.
@@ -20,7 +33,6 @@ public class Quest implements Serializable{
     private String version;
     private String description;
     private String header;
-    private int numberOfMission;
     private int upvote;
     private String author;
     private int downloader;
@@ -46,7 +58,6 @@ public class Quest implements Serializable{
         this.upvote = 0;
         this.downloader = 0;
         this.achieved = 0;
-        this.numberOfMission = 0;
         this.latLng = new LatLng();
         pre = new ArrayList<Integer>();
         mission = new ArrayList<Mission>();
@@ -63,7 +74,6 @@ public class Quest implements Serializable{
         this.upvote = 0;
         this.downloader = 0;
         this.achieved = 0;
-        this.numberOfMission = 0;
         this.latLng = new LatLng(latLng.getLat(), latLng.getLng());
         pre = new ArrayList<Integer>();
         mission = new ArrayList<Mission>();
@@ -83,6 +93,22 @@ public class Quest implements Serializable{
         this.pre = pre;
         this.mission = mission;
         this.comment = comment;
+    }
+
+    public Quest(Quest q){
+        this.id = q.getId();
+        this.title = q.getTitle();
+        this.version = q.getVersion();
+        this.description = q.getDescription();
+        this.header = q.getHeader();
+        this.author = q.getAuthor();
+        this.upvote = q.getUpvote();
+        this.downloader = q.getDownloader();
+        this.achieved = q.getAchieved();
+        this.latLng = q.getLatLng();
+        pre = new ArrayList<Integer>();
+        mission = new ArrayList<Mission>();
+        comment = new ArrayList<Comment>();
     }
 
     public String getId() {
@@ -115,18 +141,6 @@ public class Quest implements Serializable{
 
     public void setHeader(String header) {
         this.header = header;
-    }
-
-    public int getNumberOfMission() {
-        return numberOfMission;
-    }
-
-    public void setNumberOfMission(int numberOfMission) {
-        this.numberOfMission = numberOfMission;
-    }
-
-    public void incMission(){
-        this.numberOfMission++;
     }
 
     public String getDescription() {
@@ -199,5 +213,51 @@ public class Quest implements Serializable{
 
     public void setLatLng(LatLng latLng) {
         this.latLng = latLng;
+    }
+
+    public static void saveQuest(Quest q, Context context){
+        String fileName = "quest_"+q.getId();
+
+        FileOutputStream fos = null;
+        try {
+            fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(q);
+            os.close();
+            fos.close();
+
+            Toast.makeText(context, "Quest saved "+fileName, Toast.LENGTH_LONG).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Quest loadData(String id, Context context){
+        Quest output = new Quest();
+        String fileName = "quest_"+id;
+        FileInputStream fis = null;
+        try {
+            fis = context.openFileInput(fileName);
+            ObjectInputStream is = new ObjectInputStream(fis);
+            output = (Quest) is.readObject();
+            is.close();
+            fis.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return output;
+    }
+
+    public static boolean availableOffline(String id, Context context){
+        String fileName = "quest_"+id;
+        File file = new File(fileName);
+        return file.isFile();
     }
 }

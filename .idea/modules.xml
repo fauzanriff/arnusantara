@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/KudanAR/KudanAR.iml" filepath="$PROJECT_DIR$/KudanAR/KudanAR.iml" />
-      <module fileurl="file://$PROJECT_DIR$/RahasiaNusantara.iml" filepath="$PROJECT_DIR$/RahasiaNusantara.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/arnusantara.iml" filepath="$PROJECT_DIR$/arnusantara.iml" />
       <module fileurl="file://$PROJECT_DIR$/calligraphy-2.2.0/calligraphy-2.2.0.iml" filepath="$PROJECT_DIR$/calligraphy-2.2.0/calligraphy-2.2.0.iml" />
     </modules>
   </component>
