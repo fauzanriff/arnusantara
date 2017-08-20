@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import eu.kudan.rahasianusantara.FirebaseController;
@@ -107,8 +108,11 @@ public class QuestActivity extends AppCompatActivity implements FirebaseInterfac
                 ownedLayout.removeView(emptyMessage);
             }
 
-            for (int i = 0; i < user.getQuests().size(); i++){
-                if(user.getQuests().get(i).equals(input.getId())){
+            Iterator it = user.getQuests().entrySet().iterator();
+            while (it.hasNext()){
+                Map.Entry pair = (Map.Entry) it.next();
+                String questid = (String) pair.getKey();
+                if(questid.equals(input.getId())){
 
                     ProfileQuestStoreComponent questComponent = new ProfileQuestStoreComponent(getApplicationContext(), input);
 

@@ -40,12 +40,12 @@ public class Quest implements Serializable{
     private int achieved;
     private LatLng latLng;
     private ArrayList<Integer> pre;
-    private ArrayList<Mission> mission;
+    private ArrayList<Mission> missions;
     private ArrayList<Comment> comment;
 
     public Quest(){
         pre = new ArrayList<Integer>();
-        mission = new ArrayList<Mission>();
+        missions = new ArrayList<Mission>();
         comment = new ArrayList<Comment>();
     }
 
@@ -61,7 +61,7 @@ public class Quest implements Serializable{
         this.achieved = 0;
         this.latLng = new LatLng();
         pre = new ArrayList<Integer>();
-        mission = new ArrayList<Mission>();
+        missions = new ArrayList<Mission>();
         comment = new ArrayList<Comment>();
     }
 
@@ -77,7 +77,7 @@ public class Quest implements Serializable{
         this.achieved = 0;
         this.latLng = new LatLng(latLng.getLat(), latLng.getLng());
         pre = new ArrayList<Integer>();
-        mission = new ArrayList<Mission>();
+        missions = new ArrayList<Mission>();
         comment = new ArrayList<Comment>();
     }
 
@@ -92,7 +92,7 @@ public class Quest implements Serializable{
         this.downloader = downloader;
         this.achieved = achieved;
         this.pre = pre;
-        this.mission = mission;
+        this.missions = mission;
         this.comment = comment;
     }
 
@@ -108,7 +108,7 @@ public class Quest implements Serializable{
         this.achieved = q.getAchieved();
         this.latLng = q.getLatLng();
         pre = new ArrayList<Integer>();
-        mission = new ArrayList<Mission>();
+        missions = new ArrayList<Mission>();
         comment = new ArrayList<Comment>();
     }
 
@@ -169,11 +169,11 @@ public class Quest implements Serializable{
     }
 
     public ArrayList<Mission> getMission() {
-        return mission;
+        return missions;
     }
 
     public void setMission(ArrayList<Mission> mission) {
-        this.mission = mission;
+        this.missions = mission;
     }
 
     public ArrayList<Comment> getComment() {

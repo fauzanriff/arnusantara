@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseInterface
         // Get active quest
         if(Quest.activeAvailable(getApplicationContext())){
             quest = Quest.loadActiveQuest(getApplicationContext());
-            Log.d("activeQuest", quest.getTitle());
+            Log.d("activeQuest", quest.getMission().toString());
         }
 
         // Request Permission Check

@@ -2,6 +2,7 @@ package eu.kudan.rahasianusantara.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public class User implements Serializable {
     private int exp;
     private int achievement;
     private String activeQuest;
-    private List<String> quests;
+    private HashMap<String, String> quests;
 
     public User(){}
 
@@ -29,7 +30,7 @@ public class User implements Serializable {
         this.picture = "";
         this.level = 0;
         this.exp = 0;
-        this.quests = new ArrayList();
+        this.quests = new HashMap();
     }
 
     public User(String id, String username, String email, String picture) {
@@ -40,7 +41,7 @@ public class User implements Serializable {
         this.level = 0;
         this.exp = 0;
         this.achievement = 0;
-        this.quests = new ArrayList();
+        this.quests = new HashMap();
     }
 
     public User(String id, String username, String email, String picture, int level, int exp, int achievement) {
@@ -51,10 +52,10 @@ public class User implements Serializable {
         this.level = level;
         this.exp = exp;
         this.achievement = achievement;
-        this.quests = new ArrayList();
+        this.quests = new HashMap();
     }
 
-    public User(String id, String username, String email, String picture, int level, int exp, int achievement, List<String> lists) {
+    public User(String id, String username, String email, String picture, int level, int exp, int achievement, HashMap<String, String> lists) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -62,10 +63,7 @@ public class User implements Serializable {
         this.level = level;
         this.exp = exp;
         this.achievement = achievement;
-        this.quests = new ArrayList();
-        for(int i=0; i < lists.size(); i++){
-            this.quests.add(lists.get(i));
-        }
+        this.quests = new HashMap(lists);
     }
 
     public String getId() {
@@ -149,18 +147,18 @@ public class User implements Serializable {
         this.activeQuest = activeQuest;
     }
 
-    public List<String> getQuests() {
+    public HashMap<String, String> getQuests() {
         return quests;
     }
 
-    public void setQuests(List<String> myquest) {
-        this.quests = myquest;
+    public void setQuests(HashMap<String, String> myquest) {
+        this.quests = new HashMap(myquest);
     }
 
-    public void addQuest(String qid){
+    public void addQuest(String id, String value){
         if(this.quests == null){
-            this.quests = new ArrayList();
+            this.quests = new HashMap();
         }
-        this.quests.add(qid);
+        this.quests.put(id, value);
     }
 }

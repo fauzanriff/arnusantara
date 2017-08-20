@@ -26,7 +26,9 @@ import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import eu.kudan.rahasianusantara.FirebaseController;
 import eu.kudan.rahasianusantara.FirebaseInterface;
@@ -72,6 +74,7 @@ public class QuestProfileActivity extends AppCompatActivity implements FirebaseI
         if (firebaseController.isUserEmail(quest.getAuthor())){
             firebaseController.reqDatabase("Quests/"+quest.getId()+"/missions", REQ_MISSION);
         }else{
+            firebaseController.reqDatabase("Quests/"+quest.getId()+"/missions", REQ_MISSION);
             LinearLayout editLayout = (LinearLayout) findViewById(R.id.edit_mode_quest);
             editLayout.setVisibility(View.GONE);
         }
@@ -150,7 +153,11 @@ public class QuestProfileActivity extends AppCompatActivity implements FirebaseI
             startActivity(intent);
         }else if(view == saveQuestButton){
             String path = "Users/"+firebaseController.getUser().getUid().toString()+"/quests";
-            user.addQuest(quest.getId());
+            String missionid = "";
+            if(missionHandler.size()!=0){
+                missionid = missionHandler.get(0).getId();
+            }
+            user.addQuest(quest.getId(), missionid);
             firebaseController.sendDatabase(path, user.getQuests());
         }else if(view == activateQuestButton){
 //            String path = "Users/"+firebaseController.getUser().getUid().toString();
@@ -181,10 +188,14 @@ public class QuestProfileActivity extends AppCompatActivity implements FirebaseI
             // Remove Save Button
             user = (User) dataSnapshot.getValue(User.class);
             if(user != null && user.getQuests() != null){
-                for (int i = 0; i < user.getQuests().size(); i++){
-                    if(user.getQuests().get(i).equals(quest.getId())){
+                Iterator it = user.getQuests().entrySet().iterator();
+                while(it.hasNext()){
+                    Map.Entry pair = (Map.Entry) it.next();
+                    if(pair.getKey().equals(quest.getId())){
                         saveQuestButton.setVisibility(View.GONE);
                         if(!Quest.activeAvailable(getApplicationContext())){
+                            activateQuestButton.setVisibility(View.VISIBLE);
+                        }else if(!Quest.loadActiveQuest(getApplicationContext()).getId().equals(quest.getId())){
                             activateQuestButton.setVisibility(View.VISIBLE);
                         }
                         break;

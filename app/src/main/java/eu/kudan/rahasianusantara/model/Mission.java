@@ -1,5 +1,13 @@
 package eu.kudan.rahasianusantara.model;
 
+import android.content.Context;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -111,6 +119,40 @@ public class Mission implements Serializable {
 
     public void setDialogue(String dialogue) {
         this.dialogue = dialogue;
+    }
+
+    public static void saveActiveMission(Mission m, Context context){
+        String fileName = "/activemission";
+
+        try {
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(new File(context.getCacheDir(), fileName)));
+            os.writeObject(m);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Mission loadActiveMission(Context context){
+        Mission output = new Mission();
+        String fileName = "/activemission";
+
+        try {
+            ObjectInputStream is = new ObjectInputStream(new FileInputStream(new File(context.getCacheDir(), fileName)));
+            output = (Mission) is.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return output;
+    }
+
+    public static boolean activeAvailable(Context context){
+        String fileName = "/activemission";
+
+        File file = new File(context.getCacheDir(), fileName);
+        return (file.exists() && !file.isDirectory());
     }
 
 }
