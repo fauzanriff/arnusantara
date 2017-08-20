@@ -1,12 +1,13 @@
 package eu.kudan.rahasianusantara.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by fauza on 6/8/2017.
  */
 
-public class QuestStatus {
+public class QuestStatus implements Serializable {
     private int id;
     private int status;
     private int vote;

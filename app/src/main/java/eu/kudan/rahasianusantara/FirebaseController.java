@@ -46,7 +46,7 @@ public class FirebaseController {
     public void reqDatabase(String path, final int id){
         DatabaseReference databaseReference = firebaseDatabase.getReference(path);
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 firebaseInterface.onReceiveFromDatabase(dataSnapshot, id);

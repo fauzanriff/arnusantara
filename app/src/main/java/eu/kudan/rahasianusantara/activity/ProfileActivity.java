@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
 import eu.kudan.rahasianusantara.R;
+import eu.kudan.rahasianusantara.model.Quest;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -42,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             startActivity(new Intent(getApplicationContext(), UserEditActivity.class));
         }else if (view == signOutProfileButton){
             firebaseAuth.signOut();
+            Quest.deleteActiveQuest(getApplicationContext());
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

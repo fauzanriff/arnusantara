@@ -46,7 +46,7 @@ public class QuestProfileActivity extends AppCompatActivity implements FirebaseI
 
     private LinearLayout questEditButton;
     private CardView addMissionButton;
-    private Button saveQuestButton;
+    private Button saveQuestButton, activateQuestButton;
     private Quest quest;
     private ArrayList<Mission> missionHandler;
 
@@ -120,6 +120,7 @@ public class QuestProfileActivity extends AppCompatActivity implements FirebaseI
         questEditButton = (LinearLayout) findViewById(R.id.quest_edit_button);
         addMissionButton = (CardView) findViewById(R.id.add_mission_card);
         saveQuestButton = (Button) findViewById(R.id.add_mission_library);
+        activateQuestButton = (Button) findViewById(R.id.activate_mission);
     }
 
     private void renderView(){
@@ -128,15 +129,13 @@ public class QuestProfileActivity extends AppCompatActivity implements FirebaseI
 
         LinearLayout questContainer = (LinearLayout) findViewById(R.id.quest_profile_container);
         questContainer.addView(questComponent, 0);
-
-
-
     }
 
     private void setListener(){
         questEditButton.setOnClickListener(this);
         addMissionButton.setOnClickListener(this);
         saveQuestButton.setOnClickListener(this);
+        activateQuestButton.setOnClickListener(this);
     }
 
     @Override
@@ -153,6 +152,14 @@ public class QuestProfileActivity extends AppCompatActivity implements FirebaseI
             String path = "Users/"+firebaseController.getUser().getUid().toString()+"/quests";
             user.addQuest(quest.getId());
             firebaseController.sendDatabase(path, user.getQuests());
+        }else if(view == activateQuestButton){
+//            String path = "Users/"+firebaseController.getUser().getUid().toString();
+//            user.setActiveQuest(quest.getId());
+//            firebaseController.sendDatabase(path, user);
+            Quest.saveActiveQuest(quest, getApplicationContext());
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 
@@ -173,10 +180,13 @@ public class QuestProfileActivity extends AppCompatActivity implements FirebaseI
         if(id == REQ_USER){
             // Remove Save Button
             user = (User) dataSnapshot.getValue(User.class);
-            if(user != null){
+            if(user != null && user.getQuests() != null){
                 for (int i = 0; i < user.getQuests().size(); i++){
                     if(user.getQuests().get(i).equals(quest.getId())){
                         saveQuestButton.setVisibility(View.GONE);
+                        if(!Quest.activeAvailable(getApplicationContext())){
+                            activateQuestButton.setVisibility(View.VISIBLE);
+                        }
                         break;
                     }
                 }

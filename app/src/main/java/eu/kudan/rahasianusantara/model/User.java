@@ -17,6 +17,7 @@ public class User implements Serializable {
     private int level;
     private int exp;
     private int achievement;
+    private String activeQuest;
     private List<String> quests;
 
     public User(){}
@@ -135,6 +136,19 @@ public class User implements Serializable {
         this.achievement++;
     }
 
+    public String getActiveQuest() {
+        if (activeQuest != null){
+            return activeQuest;
+        }else{
+            return "";
+        }
+
+    }
+
+    public void setActiveQuest(String activeQuest) {
+        this.activeQuest = activeQuest;
+    }
+
     public List<String> getQuests() {
         return quests;
     }
@@ -144,6 +158,9 @@ public class User implements Serializable {
     }
 
     public void addQuest(String qid){
+        if(this.quests == null){
+            this.quests = new ArrayList();
+        }
         this.quests.add(qid);
     }
 }

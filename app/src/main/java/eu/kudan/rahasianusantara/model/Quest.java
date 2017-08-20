@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
@@ -216,19 +217,22 @@ public class Quest implements Serializable{
     }
 
     public static void saveQuest(Quest q, Context context){
-        String fileName = "quest_"+q.getId();
+        String fileName = "/quest_"+q.getId();
 
-        FileOutputStream fos = null;
         try {
-            fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
-            ObjectOutputStream os = new ObjectOutputStream(fos);
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(new File(context.getCacheDir(), fileName)));
             os.writeObject(q);
-            os.close();
-            fos.close();
-
-            Toast.makeText(context, "Quest saved "+fileName, Toast.LENGTH_LONG).show();
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void saveActiveQuest(Quest q, Context context){
+        String fileName = "/activequest";
+
+        try {
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(new File(context.getCacheDir(), fileName)));
+            os.writeObject(q);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -236,19 +240,30 @@ public class Quest implements Serializable{
 
     public static Quest loadData(String id, Context context){
         Quest output = new Quest();
-        String fileName = "quest_"+id;
-        FileInputStream fis = null;
+        String fileName = "/quest_"+id;
+
         try {
-            fis = context.openFileInput(fileName);
-            ObjectInputStream is = new ObjectInputStream(fis);
+            ObjectInputStream is = new ObjectInputStream(new FileInputStream(new File(context.getCacheDir(), fileName)));
             output = (Quest) is.readObject();
-            is.close();
-            fis.close();
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+
+        return output;
+    }
+
+    public static Quest loadActiveQuest(Context context){
+        Quest output = new Quest();
+        String fileName = "/activequest";
+
+        try {
+            ObjectInputStream is = new ObjectInputStream(new FileInputStream(new File(context.getCacheDir(), fileName)));
+            output = (Quest) is.readObject();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -256,8 +271,23 @@ public class Quest implements Serializable{
     }
 
     public static boolean availableOffline(String id, Context context){
-        String fileName = "quest_"+id;
-        File file = new File(fileName);
-        return file.isFile();
+        String fileName = "/quest_"+id;
+        File file = new File(context.getCacheDir(), fileName);
+        Log.d("json", file.toString());
+        return (file.exists() && !file.isDirectory());
+    }
+
+    public static boolean activeAvailable(Context context){
+        String fileName = "/activequest";
+
+        File file = new File(context.getCacheDir(), fileName);
+        return (file.exists() && !file.isDirectory());
+    }
+
+    public static void deleteActiveQuest(Context context){
+        String fileName = "/activequest";
+
+        File file = new File(context.getCacheDir(), fileName);
+        file.delete();
     }
 }

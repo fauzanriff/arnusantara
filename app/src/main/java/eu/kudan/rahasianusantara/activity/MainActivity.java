@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -22,19 +23,23 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import eu.kudan.kudan.ARAPIKey;
+import eu.kudan.rahasianusantara.FirebaseController;
+import eu.kudan.rahasianusantara.FirebaseInterface;
 import eu.kudan.rahasianusantara.R;
 import eu.kudan.rahasianusantara.component.MapFragment;
 import eu.kudan.rahasianusantara.component.ProfileMainComponent;
+import eu.kudan.rahasianusantara.model.Quest;
 import eu.kudan.rahasianusantara.model.User;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FirebaseInterface {
 
     public final static long LOCATION_MIN_TIME = 3000;
     public final static float LOCATION_MIN_DISTANCE = 5.0f;
+    private static final int CREATE_ACCOUNT = 0;
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseDatabase firebaseDatabase;
+    private FirebaseController firebaseController;
     private User user;
+    private Quest quest;
 
     private ProfileMainComponent profileMainComponent;
 
@@ -44,16 +49,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Initial firebase
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-
-        // Authentication
-        if (firebaseAuth.getCurrentUser() == null) {
-            finish();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            return;
-        }
+        firebaseController = new FirebaseController(this, getApplicationContext());
         createUser();
+
+        // Get active quest
+        if(Quest.activeAvailable(getApplicationContext())){
+            quest = Quest.loadActiveQuest(getApplicationContext());
+            Log.d("activeQuest", quest.getTitle());
+        }
 
         // Request Permission Check
         permissionsRequest();
@@ -111,33 +114,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void createUser(){
-        String id = firebaseAuth.getCurrentUser().getUid();
-        String email = firebaseAuth.getCurrentUser().getEmail();
-        DatabaseReference databaseReference = firebaseDatabase.getReference("Users/"+id);
-
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Getting your account, please wait...");
-        progressDialog.show();
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                user = dataSnapshot.getValue(User.class);
-                if(user!=null){
-                    Toast.makeText(MainActivity.this, "Success "+user.getUsername(), Toast.LENGTH_LONG).show();
-                    updateProfileUI();
-                }else{
-                    Intent intent = new Intent(getApplicationContext(), UserEditActivity.class);
-                    startActivity(intent);
-                }
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // failed
-            }
-        });
+        String id = firebaseController.getUser().getUid();
+        firebaseController.reqDatabase("Users/"+id, CREATE_ACCOUNT);
     }
 
     // Requests app permissions
@@ -214,4 +192,35 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     };
+
+    @Override
+    public void onSignedUser() {
+
+    }
+
+    @Override
+    public void onUnsignedUser() {
+        Toast.makeText(MainActivity.this, "You need to Sign In first", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onReceiveFromDatabase(DataSnapshot dataSnapshot, int id) {
+        if (id == CREATE_ACCOUNT){
+            user = dataSnapshot.getValue(User.class);
+            if(user!=null){
+                Toast.makeText(MainActivity.this, "Sign in as "+user.getUsername(), Toast.LENGTH_LONG).show();
+                updateProfileUI();
+            }else{
+                Intent intent = new Intent(getApplicationContext(), UserEditActivity.class);
+                startActivity(intent);
+            }
+        }
+    }
+
+    @Override
+    public void onErrorDatabase(DatabaseError databaseError, int id) {
+
+    }
 }
