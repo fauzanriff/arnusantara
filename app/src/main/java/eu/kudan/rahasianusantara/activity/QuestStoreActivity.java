@@ -123,7 +123,7 @@ public class QuestStoreActivity extends AppCompatActivity implements FirebaseInt
 
         // Create View for quest
         int uniqId = View.generateViewId();
-        ProfileQuestStoreComponent questComponent = new ProfileQuestStoreComponent(getApplicationContext(), new Quest(input));
+        ProfileQuestStoreComponent questComponent = new ProfileQuestStoreComponent(QuestStoreActivity.this, new Quest(input));
         questComponent.getChildAt(0).setId(uniqId);
         questComponent.getChildAt(0).setOnClickListener(this);
 

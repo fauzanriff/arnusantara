@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -12,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import eu.kudan.rahasianusantara.activity.QuestActivity;
 import eu.kudan.rahasianusantara.model.Quest;
@@ -71,6 +73,10 @@ public class FirebaseController {
 
     public boolean isUserEmail(String email){
         return firebaseAuth.getCurrentUser().getEmail().toString().equals(email);
+    }
+
+    public StorageReference getReference(String s){
+        return firebaseStorage.getReference(s);
     }
 
 }

@@ -33,7 +33,7 @@
                 android:textSize="12sp"/>
 
             <TextView
-                android:id="@+id/store_label"
+                android:id="@+id/active_quest_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
@@ -52,6 +52,7 @@
                     app:srcCompat="@drawable/radio_uncheck"
                     android:scaleType="fitXY" />
                 <TextView
+                    android:id="@+id/active_mission_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

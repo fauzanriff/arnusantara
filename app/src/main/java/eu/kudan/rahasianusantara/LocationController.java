@@ -35,7 +35,7 @@ public class LocationController {
 
     public void setListener(LocationListener customListener){
         locationListener = customListener;
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_MIN_TIME, LOCATION_MIN_DISTANCE, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_MIN_TIME, LOCATION_MIN_DISTANCE, locationListener);
     }
 
     public void removeListener(){

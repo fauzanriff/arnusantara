@@ -6,12 +6,16 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -25,9 +29,11 @@ import com.google.firebase.database.ValueEventListener;
 import eu.kudan.kudan.ARAPIKey;
 import eu.kudan.rahasianusantara.FirebaseController;
 import eu.kudan.rahasianusantara.FirebaseInterface;
+import eu.kudan.rahasianusantara.LocationController;
 import eu.kudan.rahasianusantara.R;
 import eu.kudan.rahasianusantara.component.MapFragment;
 import eu.kudan.rahasianusantara.component.ProfileMainComponent;
+import eu.kudan.rahasianusantara.model.Mission;
 import eu.kudan.rahasianusantara.model.Quest;
 import eu.kudan.rahasianusantara.model.User;
 
@@ -40,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseInterface
     private FirebaseController firebaseController;
     private User user;
     private Quest quest;
+    private Mission mission;
 
     private ProfileMainComponent profileMainComponent;
 
@@ -55,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseInterface
         // Get active quest
         if(Quest.activeAvailable(getApplicationContext())){
             quest = Quest.loadActiveQuest(getApplicationContext());
-            Log.d("activeQuest", quest.getMission().toString());
+            Log.d("activeQuest", quest.getTitle());
         }
 
         // Request Permission Check
@@ -66,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseInterface
         android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         // Map create
-        MapFragment mapFragment = new MapFragment(getApplicationContext());
+        final MapFragment mapFragment = new MapFragment(getApplicationContext());
         fragmentTransaction.add(R.id.main_map_container, mapFragment);
         fragmentTransaction.commit();
 
@@ -76,6 +83,52 @@ public class MainActivity extends AppCompatActivity implements FirebaseInterface
 
         attachUI();
         createListener();
+
+        // Get active mission
+        if(Mission.activeAvailable(getApplicationContext())){
+            mission = Mission.loadActiveMission(getApplicationContext());
+            Log.d("activeMission", String.valueOf(mission.getLatLng().getLat()));
+
+            // Get mission location
+            final Location missionLoc = new Location("");
+            missionLoc.setLatitude(mission.getLatLng().getLat());
+            missionLoc.setLongitude(mission.getLatLng().getLng());
+
+            mapFragment.setDestination(missionLoc, mission.getTitle());
+
+            // Get our location
+            final Location[] myLoc = {new Location(LocationManager.NETWORK_PROVIDER)};
+            final LocationController locationController = new LocationController(getApplicationContext());
+            locationController.setListener(new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    myLoc[0] = new Location(location);
+                    float distanceInMeters = missionLoc.distanceTo(myLoc[0]);
+                    Button arStButton = (Button) findViewById(R.id.ar_start_button);
+                    if (distanceInMeters < 300){
+                        arStButton.setVisibility(View.VISIBLE);
+                        Toast.makeText(MainActivity.this, "You're arrived on your destination", Toast.LENGTH_LONG).show();
+                    }else{
+                        arStButton.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String s) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String s) {
+
+                }
+            });
+        }
     }
 
     private void attachUI(){
@@ -85,12 +138,15 @@ public class MainActivity extends AppCompatActivity implements FirebaseInterface
     private void createListener(){
         // Initial view
         LinearLayout profileBar = (LinearLayout) findViewById(R.id.profile_bar);
-        LinearLayout playBar = (LinearLayout) findViewById(R.id.play_bar);
+//        LinearLayout playBar = (LinearLayout) findViewById(R.id.play_bar);
         LinearLayout questBar = (LinearLayout) findViewById(R.id.quest_bar);
+        Button arButton = (Button) findViewById(R.id.ar_start_button);
+
         // Sign the function
         profileBar.setOnClickListener(goToProfile);
-        playBar.setOnClickListener(goToARCamera);
+//        playBar.setOnClickListener(goToARCamera);
         questBar.setOnClickListener(goToStore);
+        arButton.setOnClickListener(goToARCamera);
     }
 
     private void updateProfileUI(){

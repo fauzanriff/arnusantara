@@ -27,6 +27,7 @@ import eu.kudan.rahasianusantara.FirebaseController;
 import eu.kudan.rahasianusantara.FirebaseInterface;
 import eu.kudan.rahasianusantara.R;
 import eu.kudan.rahasianusantara.component.ProfileQuestStoreComponent;
+import eu.kudan.rahasianusantara.model.Mission;
 import eu.kudan.rahasianusantara.model.Quest;
 import eu.kudan.rahasianusantara.model.User;
 
@@ -46,6 +47,8 @@ public class QuestActivity extends AppCompatActivity implements FirebaseInterfac
     private LinearLayout questContainer;
 
     private User user;
+    private Quest activeQuest;
+    private Mission activeMission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,24 @@ public class QuestActivity extends AppCompatActivity implements FirebaseInterfac
 
         firebaseController.reqDatabase("Users/"+firebaseController.getUser().getUid(), REQ_USER);
         firebaseController.reqDatabase("Quests", REQ_QUEST);
+
+        // initialize active quests
+        if(Quest.activeAvailable(getApplicationContext())){
+            activeQuest = Quest.loadActiveQuest(getApplicationContext());
+            TextView textActiveQuest = (TextView) findViewById(R.id.active_quest_title);
+            textActiveQuest.setText(activeQuest.getTitle().toUpperCase());
+            if(Mission.activeAvailable(getApplicationContext())){
+                activeMission = Mission.loadActiveMission(getApplicationContext());
+                TextView textActiveMission = (TextView) findViewById(R.id.active_mission_title);
+                textActiveMission.setText(activeMission.getTitle());
+            }else{
+                TextView textActiveMission = (TextView) findViewById(R.id.active_mission_title);
+                textActiveMission.setText("FINISHED");
+            }
+        }else{
+            LinearLayout activeContainer = (LinearLayout) findViewById(R.id.activated_quest);
+            activeContainer.setVisibility(View.GONE);
+        }
 
         // Set Listener
         setListener();
@@ -114,7 +135,7 @@ public class QuestActivity extends AppCompatActivity implements FirebaseInterfac
                 String questid = (String) pair.getKey();
                 if(questid.equals(input.getId())){
 
-                    ProfileQuestStoreComponent questComponent = new ProfileQuestStoreComponent(getApplicationContext(), input);
+                    ProfileQuestStoreComponent questComponent = new ProfileQuestStoreComponent(QuestActivity.this, input);
 
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     int margin = (int) getResources().getDimension(R.dimen.quest_component_margin);
@@ -142,7 +163,7 @@ public class QuestActivity extends AppCompatActivity implements FirebaseInterfac
                 questContainer.removeView(emptyMessage);
             }
 
-            ProfileQuestStoreComponent questComponent = new ProfileQuestStoreComponent(getApplicationContext(), input);
+            ProfileQuestStoreComponent questComponent = new ProfileQuestStoreComponent(QuestActivity.this, input);
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             int margin = (int) getResources().getDimension(R.dimen.quest_component_margin);

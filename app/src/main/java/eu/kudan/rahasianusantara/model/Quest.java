@@ -222,6 +222,7 @@ public class Quest implements Serializable{
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(new File(context.getCacheDir(), fileName)));
             os.writeObject(q);
+            os.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -233,6 +234,7 @@ public class Quest implements Serializable{
         try {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(new File(context.getCacheDir(), fileName)));
             os.writeObject(q);
+            os.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -245,6 +247,7 @@ public class Quest implements Serializable{
         try {
             ObjectInputStream is = new ObjectInputStream(new FileInputStream(new File(context.getCacheDir(), fileName)));
             output = (Quest) is.readObject();
+            is.close();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -261,6 +264,7 @@ public class Quest implements Serializable{
         try {
             ObjectInputStream is = new ObjectInputStream(new FileInputStream(new File(context.getCacheDir(), fileName)));
             output = (Quest) is.readObject();
+            is.close();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -273,7 +277,6 @@ public class Quest implements Serializable{
     public static boolean availableOffline(String id, Context context){
         String fileName = "/quest_"+id;
         File file = new File(context.getCacheDir(), fileName);
-        Log.d("json", file.toString());
         return (file.exists() && !file.isDirectory());
     }
 

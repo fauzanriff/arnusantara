@@ -155,4 +155,11 @@ public class Mission implements Serializable {
         return (file.exists() && !file.isDirectory());
     }
 
+    public static void deleteActiveMission(Context context){
+        String fileName = "/activemission";
+
+        File file = new File(context.getCacheDir(), fileName);
+        file.delete();
+    }
+
 }

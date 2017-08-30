@@ -29,4 +29,7 @@
     <string name="file_quests">Quests.data</string>
     <string name="noquest">You have no quest to show.</string>
 
+    <string name="facebook_app_id">145869076002855</string>
+    <string name="fb_login_protocol_scheme">fb145869076002855</string>
+
 </resources>

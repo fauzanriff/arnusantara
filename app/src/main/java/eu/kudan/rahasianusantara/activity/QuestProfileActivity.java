@@ -164,6 +164,17 @@ public class QuestProfileActivity extends AppCompatActivity implements FirebaseI
 //            user.setActiveQuest(quest.getId());
 //            firebaseController.sendDatabase(path, user);
             Quest.saveActiveQuest(quest, getApplicationContext());
+            boolean changed = false;
+            for (int i=0; i<missionHandler.size(); i++){
+                if(missionHandler.get(i).getId().equals(user.getQuests().get(quest.getId()))){
+                    Mission.saveActiveMission(missionHandler.get(i), getApplicationContext());
+                    changed = true;
+                    break;
+                }
+            }
+            if(!changed){
+                Mission.deleteActiveMission(getApplicationContext());
+            }
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
