@@ -173,7 +173,10 @@ public class Quest implements Serializable{
     }
 
     public void setMission(ArrayList<Mission> mission) {
-        this.missions = mission;
+        this.missions = new ArrayList();
+        for (int i=0; i < mission.size(); i++){
+            this.missions.add(mission.get(i));
+        }
     }
 
     public ArrayList<Comment> getComment() {

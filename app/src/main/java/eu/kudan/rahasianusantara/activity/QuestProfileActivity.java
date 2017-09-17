@@ -84,7 +84,7 @@ public class QuestProfileActivity extends AppCompatActivity implements FirebaseI
     }
 
     private void renderMission(Mission mission){
-        MissionSingleComponent missionProfile = new MissionSingleComponent(getApplicationContext());
+        MissionSingleComponent missionProfile = new MissionSingleComponent(QuestProfileActivity.this );
 
         missionProfile.setOrderMission(mission.getOrder());
         missionProfile.setTitleMission(mission.getTitle());
@@ -221,6 +221,9 @@ public class QuestProfileActivity extends AppCompatActivity implements FirebaseI
                 missionHandler.add(input);
                 renderMission(input);
             }
+
+            quest.setMission(missionHandler);
+
             TextView counterMission = (TextView) findViewById(R.id.counter_mission);
             counterMission.setText(String.valueOf(missionHandler.size()));
         }

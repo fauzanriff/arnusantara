@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseInterface
         // Get active mission
         if(Mission.activeAvailable(getApplicationContext())){
             mission = Mission.loadActiveMission(getApplicationContext());
-            Log.d("activeMission", String.valueOf(mission.getLatLng().getLat()));
+            Log.d("activeMission", String.valueOf(mission.getTitle()));
 
             // Get mission location
             final Location missionLoc = new Location("");

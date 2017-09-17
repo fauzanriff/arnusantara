@@ -5,10 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -125,6 +127,7 @@ public class MissionEditActivity extends AppCompatActivity implements View.OnCli
             openImageLibrary(PICK_MARKER);
         }else if(v == addModelButton){
             openImageLibrary(PICK_MODEL);
+//            openModelLibrary(PICK_MODEL);
         }
     }
 
@@ -149,6 +152,24 @@ public class MissionEditActivity extends AppCompatActivity implements View.OnCli
 
             TextView labelPathModel = (TextView) findViewById(R.id.label_path_model);
             labelPathModel.setText(filePathModel.getPath());
+        }
+    }
+
+    protected void openModelLibrary(int parent){
+        Uri mUri = Uri.parse(Environment.getRootDirectory().getPath());
+        Log.d("file", mUri.toString());
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setDataAndType(mUri, "text/folder");
+
+        if (intent.resolveActivityInfo(getPackageManager(), 0) != null)
+        {
+            startActivity(Intent.createChooser(intent, "Open folder"));
+        }
+        else
+        {
+            // if you reach this place, it means there is no any file
+            // explorer app installed on your device
+            Log.d("nofile", "nofile");
         }
     }
 

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +45,7 @@ import eu.kudan.rahasianusantara.model.Quest;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 
-public class Playground extends eu.kudan.kudan.ARActivity implements FirebaseInterface{
+public class Playground extends eu.kudan.kudan.ARActivity implements FirebaseInterface, View.OnClickListener{
 
     private ARImageTrackable trackable;         // for image trackable marker
     private ARImageTracker trackmanager;
@@ -58,7 +59,35 @@ public class Playground extends eu.kudan.kudan.ARActivity implements FirebaseInt
     private Mission mission;
     private String markerName, modelName;
 
+    private Button finishButton;
+
     private ARBITRACK_STATE arbitrack_state;
+
+    //Tracking enum
+    enum ARBITRACK_STATE {
+        ARBI_PLACEMENT,
+        ARBI_TRACKING
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_arcamera);
+        arbitrack_state  = ARBITRACK_STATE.ARBI_PLACEMENT;
+
+        // Set Listener
+        setListener();
+
+        // Initialization firebase
+        firebaseController = new FirebaseController(this, getApplicationContext());
+
+        // Get Quest and Mission from storage
+        getQuestMission();
+
+        // Get marker and model
+        getMarkerModel();
+
+    }
 
     @Override
     public void onSignedUser() {
@@ -80,35 +109,15 @@ public class Playground extends eu.kudan.kudan.ARActivity implements FirebaseInt
 
     }
 
-    //Tracking enum
-    enum ARBITRACK_STATE {
-        ARBI_PLACEMENT,
-        ARBI_TRACKING
-    }
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_arcamera);
-        arbitrack_state  = ARBITRACK_STATE.ARBI_PLACEMENT;
-
-        // Initialization firebase
-        firebaseController = new FirebaseController(this, getApplicationContext());
-
-        // Get Quest and Mission from storage
-        getQuestMission();
-
-
-        // Get marker and model
-        getMarkerModel();
-
+    public void onClick(View view) {
+        if (view == finishButton){
+            Log.d("complete", "trigerred");
+            completeMission();
+        }
     }
 
     public void setup(){
-
-
-
-
 
 //        setModel();
 
@@ -120,6 +129,12 @@ public class Playground extends eu.kudan.kudan.ARActivity implements FirebaseInt
 //        ararbitrack.initialise();
 //
 //        ararbitrack.addListener(R.layout.activity_arcamera);
+    }
+
+    protected void setListener(){
+        finishButton = (Button) findViewById(R.id.finish_button);
+
+        finishButton.setOnClickListener(this);
     }
 
     protected void setARListener(){
@@ -144,6 +159,50 @@ public class Playground extends eu.kudan.kudan.ARActivity implements FirebaseInt
                 dialogContainer.setVisibility(View.GONE);
             }
         });
+    }
+
+    protected void addExperience(){
+
+    }
+
+    protected void completeMission(){
+        // next active mission
+        Log.d("activemission", "a");
+        String nextMission= "";
+        Mission nextMissionClass =  null;
+        Log.d("complete", quest.getMission().get(0).getId());
+        for (int i=0; i<quest.getMission().size(); i++){
+            if(mission.getId().equals(quest.getMission().get(i).getId())){
+                if(i != quest.getMission().size()-1){
+                    nextMission = quest.getMission().get(i+1).getId();
+                    nextMissionClass = quest.getMission().get(i+1);
+                }
+                break;
+            }
+        }
+        Log.d("activemission", "2");
+        // update to database
+        String userid = firebaseController.getUser().getUid();
+        String path = "Users/"+userid+"/quests/"+quest.getId();
+        firebaseController.sendDatabase(path, nextMission);
+
+        Log.d("activemission", "3");
+        if(!nextMission.equals("") && nextMission == null){
+            Toast.makeText(this, "Quest "+quest.getTitle()+" telah berhasil diselesaikan", Toast.LENGTH_LONG).show();
+            Mission.deleteActiveMission(getApplicationContext());
+        }else{
+            Mission.saveActiveMission(nextMissionClass, getApplicationContext());
+            Toast.makeText(this, "Misi berhasil diselesaikan, misi berikutnya telah berhasil ditambahkan.", Toast.LENGTH_LONG).show();
+        }
+        Log.d("activemission", "4");
+
+        // Add level
+
+
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        Log.d("activemission", "5");
     }
 
     protected void getMarkerModel(){

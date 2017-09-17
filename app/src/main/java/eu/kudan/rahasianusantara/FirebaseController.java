@@ -17,6 +17,7 @@ import com.google.firebase.storage.StorageReference;
 
 import eu.kudan.rahasianusantara.activity.QuestActivity;
 import eu.kudan.rahasianusantara.model.Quest;
+import eu.kudan.rahasianusantara.model.User;
 
 /**
  * Created by fauzanrifqy on 8/7/17.
@@ -30,9 +31,12 @@ public class FirebaseController {
     private FirebaseStorage firebaseStorage;
     private FirebaseInterface firebaseInterface;
 
+    private User user = null;
+
     Context mContext;
 
     public FirebaseController(FirebaseInterface input, Context context){
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
@@ -43,6 +47,8 @@ public class FirebaseController {
         }else{
             firebaseInterface.onSignedUser();
         }
+
+        reqUserData();
     }
 
     public void reqDatabase(String path, final int id){
@@ -52,6 +58,9 @@ public class FirebaseController {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 firebaseInterface.onReceiveFromDatabase(dataSnapshot, id);
+                if(id == 999){
+                    user = dataSnapshot.getValue(User.class);
+                }
             }
 
             @Override
@@ -71,8 +80,23 @@ public class FirebaseController {
         return firebaseAuth.getCurrentUser();
     }
 
+    public User getUserData() {
+        return user;
+    }
+
+    public void reqUserData(){
+        reqDatabase("/Users/"+firebaseAuth.getCurrentUser().getUid(), 999);
+    }
+
     public boolean isUserEmail(String email){
         return firebaseAuth.getCurrentUser().getEmail().toString().equals(email);
+    }
+
+    public void addExp(int input){
+        if(user != null){
+            user.addExp(input);
+        }
+        sendDatabase("Users/"+user.getId(), user);
     }
 
     public StorageReference getReference(String s){
